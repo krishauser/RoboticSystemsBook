@@ -1,0 +1,22 @@
+### A 3R planar robot ###
+TParent 1 0 0   0 1 0   0 0 1   0 0 0     \
+1 0 0   0 1 0   0 0 1   1 0 0    \
+1 0 0   0 1 0   0 0 1   1 0 0
+axis	0 0 1	0 0 1	0 0 1
+jointtype	r r r
+qMin	0 0 0 
+qMax	6.28319 6.28319 6.28319
+q	0 0 0
+geometry	 "thincube.off"  "thincube.off"  "thincube.off"
+geomscale	1 1 1
+mass	1 1 1
+automass
+torqueMax	1 1 1
+accMax	1 1 1
+velMax	1 1 1
+joint spin 0
+joint spin 1
+joint spin 2
+servoP	50 50 50
+servoI	100 100 100
+servoD	3 3 3

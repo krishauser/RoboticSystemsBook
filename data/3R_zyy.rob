@@ -1,0 +1,24 @@
+### A 3R ZYY robot ###
+TParent 1 0 0   0 1 0   0 0 1   0 0 0     \
+1 0 0   0 1 0   0 0 1   0.25 0 0    \
+1 0 0   0 1 0   0 0 1   1 0 0
+axis	0 0 1	0 1 0	0 1 0
+jointtype	r r r
+qMin	-inf -inf -inf
+qMax	inf inf inf
+q	0 0 0
+geometry	 "shortcube.off"  "thincube.off"  "thincube.off"
+mount 0  "cylinder.off"  0.12 0 0 0 0.12 0 0 0 0.4  0 0 -0.2
+mount 1 "cylinder.off"  0.07 0 0  0 0 0.2  0 -0.07 0    0 -0.1 0
+mount 2 "cylinder.off"  0.07 0 0  0 0 0.2  0 -0.07 0    0 -0.1 0
+mass	1 1 1
+automass
+torqueMax	1 1 1
+accMax	1 1 1
+velMax	1 1 1
+joint spin 0
+joint spin 1
+joint spin 2
+servoP	50 50 50
+servoI	100 100 100
+servoD	3 3 3

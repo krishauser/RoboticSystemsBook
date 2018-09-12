@@ -1,0 +1,30 @@
+### Kinematics of the Staubli TX90L robot ###
+TParent 1 0 0   0 1 0   0 0 1   0 0 0 \
+0 1 0   -1 0 0   0 0 1   -0.0248 0 0.242   \
+ 0 0 -1   1 0 0   0 -1 0   -0.16 0.05 0.23  \
+ 1 0 0   0 -1 0   0 0 -1   -0.0001 -0.5 0  \
+1 0 0   0 0 1   0 -1 0   -0.0002 0.156 0.11 \
+1 0 0   0 0 -1   0 1 0   0.0008 0.0305 0.3952  \
+1 0 0   0 0 1   0 -1 0   0 0.095 0.0305 \
+parents -1 0 1 2 3 4 5
+axis 0 0 1    0 0 1    0 0 1    0 0 1    0 0 1   0 0 1    0 0 1
+translation  0 0 0
+#qMinDeg    0    -179   -147.5   -145    -270   -140    -270
+#qMaxDeg    0    179    130       145    270    115    270
+qMinDeg    0    -179   -147.5   -145    -179   -140    -179
+qMaxDeg    0    179    130       145    179    115    179
+velMaxDeg  0    400    400      430    540    475    760
+#accMaxDeg  0    800    800      800    800     800    800
+#velMaxDeg  0    200    200      215    270    235    380
+accMaxDeg  0    400    400      400    400     400    400
+geometry   "tx90l/part6.off" "tx90l/part5.off" "tx90l/part4.off" "tx90l/part3.off" "tx90l/part2.off" "tx90l/part1.off" "sphere.off"
+geomscale 1 1 1 1 1 1 0.01
+mass       20 10 10 5 5 1 0.1
+automass
+torqueMax  inf 800 600 400 200 100 50
+servoP  40000 50000 20000 10000 2000 400
+servoI  100 100 100 100 40 10
+servoD  1000 2000 700 400 50 2
+dryFriction 5 5 3 1 0.1 0.05
+viscousFriction 100 100 70 40 5 1
+

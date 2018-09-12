@@ -1,0 +1,69 @@
+<robot name="Planar 2R robot">
+  <link name="base_link"> 
+  </link> 
+
+  <link name="link_1"> 
+    <visual>
+	  <origin xyz="0 0 0" rpy="0 1.5708 0" />
+	  <geometry>
+		<cylinder length="1" radius="0.1"/>
+	  </geometry>
+	  <material name="grey">
+		<color rgba="0.6 0.6 .6 1"/>
+	  </material>
+	</visual>
+	<collision>
+	  <origin xyz="0 0 0" rpy="0 1.5708 0" />
+	  <geometry>
+		<cylinder length="1.0" radius="0.1"/>
+	  </geometry>
+	</collision>
+	<inertial>
+	  <mass value="2.0"/>
+	  <inertia ixx="0.2" ixy="0.0" ixz="0.0" iyy="0.6" iyz="0.0" izz="0.6"/>
+	</inertial>
+  </link> 
+
+  <link name="link_2"> 
+	<visual>
+	  <origin xyz="0 0 0" rpy="0 1.5708 0" />
+	  <geometry>
+		<cylinder length="1" radius="0.1"/>
+	  </geometry>
+	  <material name="grey">
+		<color rgba="0.6 0.6 .6 1"/>
+	  </material>
+	</visual>
+	<collision>
+	  <origin xyz="0 0 0" rpy="0 1.5708 0" />
+	  <geometry>
+		<cylinder length="1.0" radius="0.1"/>
+	  </geometry>
+	</collision>
+	<inertial>
+	  <mass value="2.0"/>
+	  <inertia ixx="0.2" ixy="0.0" ixz="0.0" iyy="0.6" iyz="0.0" izz="0.6"/>
+	</inertial>
+  </link> 
+
+  <link name="end_effector">
+  </link>
+
+  <joint name="joint_1" type="revolute">
+    <origin xyz="1 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <parent link="base_link"/>
+    <child link="link_1"/>
+  </joint>
+
+  <joint name="joint_2" type="revolute">
+    <origin xyz="1 0 0" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <parent link="link_1"/>
+    <child link="link_2"/>
+  </joint>
+  
+  <joint name="end_effector" type="fixed">
+    <origin xyz="2 0 0"/>
+  </joint>
+</robot>

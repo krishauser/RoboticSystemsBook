@@ -4,7 +4,7 @@
 
   <link name="link_1"> 
     <visual>
-	  <origin xyz="0 0 0" rpy="0 1.5708 0" />
+	  <origin xyz="0.5 0 0" rpy="0 1.5708 0" />
 	  <geometry>
 		<cylinder length="1" radius="0.1"/>
 	  </geometry>
@@ -13,7 +13,7 @@
 	  </material>
 	</visual>
 	<collision>
-	  <origin xyz="0 0 0" rpy="0 1.5708 0" />
+	  <origin xyz="0.5 0 0" rpy="0 1.5708 0" />
 	  <geometry>
 		<cylinder length="1.0" radius="0.1"/>
 	  </geometry>
@@ -26,7 +26,7 @@
 
   <link name="link_2"> 
 	<visual>
-	  <origin xyz="0 0 0" rpy="0 1.5708 0" />
+	  <origin xyz="0.5 0 0" rpy="0 1.5708 0" />
 	  <geometry>
 		<cylinder length="1" radius="0.1"/>
 	  </geometry>
@@ -35,7 +35,7 @@
 	  </material>
 	</visual>
 	<collision>
-	  <origin xyz="0 0 0" rpy="0 1.5708 0" />
+	  <origin xyz="0.5 0 0" rpy="0 1.5708 0" />
 	  <geometry>
 		<cylinder length="1.0" radius="0.1"/>
 	  </geometry>
@@ -50,10 +50,11 @@
   </link>
 
   <joint name="joint_1" type="revolute">
-    <origin xyz="1 0 0" rpy="0 0 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
     <parent link="base_link"/>
     <child link="link_1"/>
+    <limit effort="100" velocity="3.1415926" lower="-3.141593" upper="3.141593" />
   </joint>
 
   <joint name="joint_2" type="revolute">
@@ -61,9 +62,14 @@
     <axis xyz="0 0 1"/>
     <parent link="link_1"/>
     <child link="link_2"/>
+    <limit effort="100" velocity="3.1415926" lower="-3.141593" upper="3.141593" />
   </joint>
   
   <joint name="end_effector" type="fixed">
     <origin xyz="2 0 0"/>
+    <parent link="link_2"/>
+    <child link="end_effector"/>
   </joint>
+
+  <klampt world_frame="base_link" />
 </robot>

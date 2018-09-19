@@ -4,7 +4,7 @@ import errno
 from glob import glob
 import shutil
 
-program = "C:\Python27\Scripts\jupyter-nbconvert"
+program = "C:\Python27\Scripts\jupyter-nbconvert --CodeFoldingPreprocessor.remove_folded_code=True"
 target_default = 'html_with_toclenvs'
 targets = {'Table of Contents.ipynb':'html'}
 

@@ -66,7 +66,7 @@
   </joint>
   
   <joint name="end_effector" type="fixed">
-    <origin xyz="2 0 0"/>
+    <origin xyz="1 0 0"/>
     <parent link="link_2"/>
     <child link="end_effector"/>
   </joint>

@@ -4,7 +4,7 @@ import errno
 from glob import glob
 import shutil
 
-program = "C:\Python27\Scripts\jupyter-nbconvert --CodeFoldingPreprocessor.remove_folded_code=True"
+program = "jupyter nbconvert --CodeFoldingPreprocessor.remove_folded_code=True"
 target_default = 'html_with_toclenvs'
 targets = {'Table of Contents.ipynb':'html'}
 
@@ -18,11 +18,11 @@ def mkdir_p(path):
             raise
 
 def replace_in_file(fn,src,dest):
-	f = file(fn,'r')
+	f = open(fn,'r')
 	lines = ''.join(f.readlines())
 	f.close()
 	
-	f = file(fn,'w')
+	f = open(fn,'w')
 	f.write(lines.replace(src,dest))
 	f.close()
 

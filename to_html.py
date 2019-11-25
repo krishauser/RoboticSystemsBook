@@ -6,7 +6,7 @@ import shutil
 
 program = "jupyter nbconvert --CodeFoldingPreprocessor.remove_folded_code=True"
 target_default = 'html_with_toclenvs'
-targets = {'Table of Contents.ipynb':'html'}
+targets = {'Book.ipynb':'html'}
 
 def mkdir_p(path):
     try:
@@ -18,13 +18,16 @@ def mkdir_p(path):
             raise
 
 def replace_in_file(fn,src,dest):
-	f = open(fn,'r')
-	lines = ''.join(f.readlines())
-	f.close()
-	
-	f = open(fn,'w')
-	f.write(lines.replace(src,dest))
-	f.close()
+    f = open(fn,'r')
+    lines = ''.join(f.readlines())
+    f.close()
+    f = None
+    
+    f = open(fn+'.tmp','w')
+    f.write(lines.replace(src,dest))
+    f.close()
+    
+    os.replace(fn+'.tmp',fn)
 
 for fn in glob("*.ipynb"):
 	os.system('%s --to %s "%s"'%(program,targets.get(fn,target_default),fn))

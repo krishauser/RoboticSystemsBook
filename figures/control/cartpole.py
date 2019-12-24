@@ -1,7 +1,9 @@
+from __future__ import print_function,division
 import matplotlib.pyplot as plt
 import numpy as np
 import math
 from klampt.math import so2
+from code.control.examples.cartpole import Cartpole
 from plotting import *
 
 from matplotlib import rc
@@ -19,76 +21,6 @@ def PID(x,I,dx,KP,KI,KD):
     u = -np.dot(KP,x)-np.dot(KI,I)-np.dot(KD,dx)
     return u
 
-class Cartpole:
-    """Defines a cart-pole system with the first element x translation and the
-    second element returning the angle of the pole w.r.t to the x axis."""
-    def __init__(self,m=[1.,1.],L=1.,g=9.8):
-        self.m = m[:]
-        self.L = L
-        self.g = g
-        self.viscosity = None
-        self.umin = None
-        self.umax = None
-        
-    def dynamics_terms(self,q,dq):
-        """Returns elements B,C,G of the dynamics equation for a given state (q,dq)"""
-        #unpack elements
-        x,theta=q[0],q[1]
-        dx,dtheta=dq[0],dq[1]
-        m1,m2=self.m
-        L=self.L
-        s,c = math.sin(theta),math.cos(theta)
-        B = np.array([[m1+m2, -m2*L/2*s],
-                      [-m2*L/2*s, m2*L*L/4]])
-        C = np.array([-m2*L/2*dtheta**2*c,0])
-        G = np.array([0,m2*self.g*c])
-        return B,C,G
-
-    def dynamics(self,q,dq,u):
-        """Returns forward dynamics q''=f(q,q',u).  Note that u is the
-        torque applied to both the cart and the pole, so if you just want to
-        control the cart, set the second term of u to 0."""
-        B,C,G = self.dynamics_terms(q,dq)
-        visc = np.zeros(2)
-        if self.viscosity is not None:
-            visc = -self.viscosity*dq
-        ddq = np.dot(np.linalg.inv(B),u+visc-G-C)
-        return ddq
-
-    def inverse_dynamics(self,q,dq,ddq):
-        """Returns inverse dynamics u=g(q,q',q'').  Note that u is the
-        torque applied to both the cart and the pole, so if you just want to
-        control the cart, set the second term of u to 0."""
-        B,C,G = self.dynamics_terms(q,dq)
-        visc = np.zeros(2)
-        if self.viscosity is not None:
-            visc = -self.viscosity*dq
-        u = np.dot(B,ddq)+G+C-visc
-        return u
-
-    def simulate(self,q0,dq0,ufunc,dt=1e-3,T=1):
-        """Returns a simulation trace of the cart pole problem using Euler
-        integration.  ufunc is a policy u(t,q,dq)"""
-        q = q0.copy()
-        dq = dq0.copy()
-        res = dict((idx,[]) for idx in ['t','q','dq','u','ddq'])
-        t = 0
-        while t < T:
-            u = ufunc(t,q,dq)
-            if self.umin is not None:
-                raise NotImplementedError("handling bounds not done yet")
-            #print t,q,dq,u
-            ddq = self.dynamics(q,dq,u)
-            res['t'].append(t)
-            res['q'].append(q)
-            res['dq'].append(dq)
-            res['ddq'].append(ddq)
-            res['u'].append(u)
-            q = q+dt*dq
-            dq = dq+dt*ddq
-            q[1]=q[1]%(math.pi*2)
-            t += dt
-        return res    
 
 #create a cartpole instance -- can change parameters in the constructor or below
 cartpole = Cartpole()
@@ -108,8 +40,8 @@ KD=np.array([[0.8,-2.0],
              [0.,0.]])
 
 def pdcontrol(t,q,dq):
-    """Standard PD controller"""
-    return PD([so2.diff(q[0],qdes[0]),q[1]-qdes[1]],dq,KP,KD)
+    """Standard PD controller for cartpole problem"""
+    return PD([q[0]-qdes[0],so2.diff(q[1],qdes[1])],dq,KP,KD)
 
 def sinusoidal_accel(t,q,dq):
     #3 swings results

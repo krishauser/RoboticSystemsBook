@@ -30,6 +30,16 @@ class AdjListGraph:
         assert w in self.edges
         self.edges[v].append(w)
     
+    def subgraph(self,node_subset):
+        """Extracts the subgraph corresponding to a set of nodes"""
+        nodeset = set(node_subset)
+        vertices = list(node_subset)
+        edges = []
+        for (v,w) in self.edges:
+            if v in nodeset and w in nodeset:
+                edges.append(v,w)
+        return AdjListGraph(vertices,edges)
+    
     def assert_valid(self):
         """Asserts that the graph is constructed properly"""
         assert len(self.edges) == len(self.vertices),"Edge list and vertices do not have the same length"

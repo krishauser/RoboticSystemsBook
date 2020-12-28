@@ -1,5 +1,7 @@
 """A simple graph data structure.  For better performance, use NetworkX."""
 
+from six import iteritems
+
 class AdjListGraph:
     """A very simple adjacency list graph structure.  For higher performance use
     in Python, you will probably want to learn a library like networkx, which will
@@ -30,15 +32,23 @@ class AdjListGraph:
         assert w in self.edges
         self.edges[v].append(w)
     
+    
     def subgraph(self,node_subset):
         """Extracts the subgraph corresponding to a set of nodes"""
         nodeset = set(node_subset)
         vertices = list(node_subset)
         edges = []
-        for (v,w) in self.edges:
+        for (v,w) in self.edges_iter():
             if v in nodeset and w in nodeset:
-                edges.append(v,w)
+                edges.append((v,w))
         return AdjListGraph(vertices,edges)
+    
+    def edges_iter(self):
+        """Returns an iterator over edges (v,w)"""
+        for k,v in iteritems(self.edges):
+            for w in v:
+                yield (k,w)
+        return
     
     def assert_valid(self):
         """Asserts that the graph is constructed properly"""

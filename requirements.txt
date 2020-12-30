@@ -17,4 +17,5 @@ seaborn==0.10.1
 six==1.15.0               # via cycler, python-dateutil
 klampt==0.8.5
 ipywidgets
+PyOpenGL
 jupyter_contrib_nbextensions

@@ -1,0 +1,10 @@
+[
+    { "type":"multiple-choice",
+      "prompt":"The process of forward kinematics computes what quantity(ies)?",
+      "options":["A configuration that reaches a target point",
+            "A rotation matrix that blends between two rotations",
+            "The reachable workspace of a robot",
+            "Coordinate transforms of the robot’s links at a given configuration"],
+      "answer":3
+    }
+]

@@ -1,0 +1,19 @@
+[
+    { "type":"multiple-choice",
+      "prompt":"Which of the following geometric representations would be most appropriate for a 3D indoor office environment, in which we will frequently want to determine whether a point is inside or outside of obstacles?",
+      "options":["Geometric primitive",
+                 "Occupancy grid",
+                 "Point cloud",
+                 "Trapezoidal decomposition"],
+      "answer":1
+    },
+    { "type":"multiple-choice",
+      "prompt":"Which of the following geometric representations is most appropriate to store the raw data coming from a laser scanner?",
+      "options":["Volume grid",
+                 "Geometric primitive",
+                 "Point cloud",
+                 "Implicit surface"],
+      "answer":2,
+      "feedback":[null,null,"This representation is derived directly from the raw data, requiring essentially no processing"]
+    }
+]

@@ -8,3 +8,6 @@ git clone https://github.com/krishauser/Klampt-jupyter-extension.git
 cd Klampt-jupyter-extension
 make install-user
 cd ..
+
+apt update
+apt install libgl1-mesa-glx

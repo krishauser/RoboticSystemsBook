@@ -14,6 +14,6 @@
                  "Point cloud",
                  "Implicit surface"],
       "answer":2,
-      "feedback":[null,null,"This representation is derived directly from the raw data, requiring essentially no processing"]
+      "feedback":[null,null,"This representation is derived directly from the raw data, requiring essentially no processing",null]
     }
 ]

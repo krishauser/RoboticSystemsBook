@@ -55,7 +55,7 @@
                "Visibility checking (i.e., dynamic collision checking) should interpolate rotations in a geodesic manner when checking intermediate components",
                "Rotation angles should be sampled from the range $[0,2\\pi)$",
                "All of the above."],
-    "feedback":[null,null,null,"If you don’t do each of the above, then paths that rotate through theta=0 will not be produced by the planner."],
+    "feedback":[null,null,null,"If you don't do each of the above, then paths that rotate through theta=0 will not be produced by the planner."],
     "answer":3,
     "randomize":false
   }

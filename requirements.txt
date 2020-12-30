@@ -16,3 +16,5 @@ scipy==1.4.1              # via seaborn
 seaborn==0.10.1
 six==1.15.0               # via cycler, python-dateutil
 klampt==0.8.5
+ipywidgets
+jupyter_contrib_nbextensions

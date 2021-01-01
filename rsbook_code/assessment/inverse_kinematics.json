@@ -41,13 +41,21 @@
       "randomize":false
     },
     { "type":"multiple-choice",
-      "prompt":"A planar 2D robot is at a singularity (with a task space consisting of the robot's end effector position) when:",
+      "prompt":"A planar 2R robot is at a singularity (with a task space consisting of the robot's end effector position) when:",
       "options":["The number of IK solutions would change if the target were perturbed slightly",
                  "The Jacobian matrix has rank 1",
                  "Its elbow is straight",
                  "All of the above"],
       "answer":3,
       "randomize":false
+    },
+    { "type":"multiple-choice",
+      "prompt":"How can you tell if a robot is at a singular configuration (with respect to a given task space)?",
+      "options":["It meets joint limits for at least one joint.",
+          "Two or more of its joint axes become parallel.",
+          "The task Jacobian has the same or fewer rows than columns.",
+          "The task Jacobian becomes no longer full rank."],
+      "answer":3
     },
     { "type":"multiple-choice",
       "prompt":"Which of the following statements is true about numerical inverse kinematics?",
@@ -60,5 +68,9 @@
               "One of its strengths is to handle arbitrary task spaces",
               null,
               "Analytical techniques were dominant decades ago due to limited processing power, but as CPUs grew in power numerical methods became much more viable."]
+    },
+    { "type":"freeform",
+      "prompt":"Consider the problem of solving for a collision-free IK solution. One potential approach would be to solve for a solution (with numerical IK, for example) and if successful, check collision with the robot at the given configuration. If the robot is in collision, return failure. What is the primary drawback of this approach?",
+      "answer":"The main issue with this procedure is that it may incorrectly return failure, where there does exist a collision-free IK solution but the procedure does not find it.  There may be several solutions to an IK problem, some of which may be collision free, and some of which may be in collision.  If the first step chooses the "wrong" solution by some chance, then it will fail the collision check and reporting failure will be incorrect.  Instead, a correct method would check all solutions (if a finite number of solutions exist) or continue searching for collision free solutions if the first one fails, e.g., using random restarts."
     }
 ]

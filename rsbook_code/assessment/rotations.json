@@ -1,0 +1,13 @@
+[
+    { "type":"freeform",
+      "prompt":"Give at least one reason why axis-angle representation may be preferable to a rotation matrix representation.",
+      "answer":"There are several possible answers. Axis-angle representation is <ul><li>usually more intuitive to specify, <li>has fewer parameters (4), <li>it is easier to test whether a given 4 parameters are a valid representation (simply check if the axis is a unit vector), and <li>the domain of valid parameters is simpler to express.</ul>  (Both representations are fairly easy to invert.)" 
+    },
+    { "type":"freeform",
+      "prompt":"Give at least one reason why a rotation matrix representation may be preferable to an axis-angle representation.",
+      "answer":"Rotation matrix representations are 1) easier to compose and 2) to apply to vectors.  (Both representations are fairly easy to invert.)" 
+    }
+]
+
+
+

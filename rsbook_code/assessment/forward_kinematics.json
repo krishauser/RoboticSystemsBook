@@ -6,5 +6,20 @@
             "The reachable workspace of a robot",
             "Coordinate transforms of the robot's links at a given configuration"],
       "answer":3
+    },
+    { "type":"short-answer",
+      "prompt":"What do you call a joint that rotates around an axis?",
+      "answers":['revolute']
+    },
+    { "type":"short-answer",
+      "prompt":"What do you call a joint that extends linearly along an axis?",
+      "answers":['prismatic']
+    },
+    { "type":"multiple-choice",
+      "prompt":"True or false: the number of links is equal to the number of joints plus 1 in all robots",
+      "options":["True","False"],
+      "randomize":false,
+      "answer":1,
+      "feedback":"For serial robots, this is true, but this is not true for closed-loop robots."
     }
 ]

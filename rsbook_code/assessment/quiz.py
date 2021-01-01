@@ -501,22 +501,31 @@ class Quiz:
         if not isinstance(json_obj,dict):
             raise ValueError("json_obj must be a dict")
         type = json_obj['type']
-        prompt = json_obj['prompt']
-        answer = json_obj['answer']
-        number = json_obj.get('number',None)
+        args = json_obj.copy()
+        del args['type']
         if type == 'multiple-choice':
-            options = json_obj['options']
-            displayed = json_obj.get('displayed',None)
-            feedback = json_obj.get('feedback',None)
-            randomize = json_obj.get('randomize',True)
-            self.add_multiple_choice(prompt,options,answer,number,displayed,feedback,randomize)
+            self.add_multiple_choice(**args)
+        elif type == 'short-answer':
+            self.add_short_answer(**args)
+        elif type == 'freeform':
+            self.add_freeform(**args)
+        else:
+            raise ValueError("Invalid 'type': "+type)
 
 BASE_PATH = os.path.split(__file__)[0]
 
-def show_forward_kinematics():
+def show_coordinate_transforms():
     import json
     q = Quiz()
-    with open(os.path.join(BASE_PATH,'forward_kinematics.json'),'r') as f:
+    with open(os.path.join(BASE_PATH,'coordinate_transforms.json'),'r') as f:
+        jsonobj = json.load(f)
+    q.from_json(jsonobj)
+    q.display()
+
+def show_rotations():
+    import json
+    q = Quiz()
+    with open(os.path.join(BASE_PATH,'rotations.json'),'r') as f:
         jsonobj = json.load(f)
     q.from_json(jsonobj)
     q.display()

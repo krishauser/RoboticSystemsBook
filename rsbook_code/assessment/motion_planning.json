@@ -33,13 +33,45 @@
                "Is blob-shaped with a C1 smooth boundary"],
     "answer":2
   },
+  { "type":"short-answer",
+    "prompt":"Consider building a grid search planner for a robot that can translate in 3D, and need to decide whether to only allow axis-aligned movements at each step, or to also allow diagonal movements. If the grid has N vertices, how many edges will be in the search graph if only axis-aligned movements are allowed?  (Ignore boundaries, and assume edges are undirected)",
+    answers:["3N","3 N","3*N"],
+    feedback:{
+      "6N":"Nice try. Each point has 6 directions of motion, but each edge is shared by how many points?",
+      "6 N":"Nice try. Each point has 6 directions of motion, but each edge is shared by how many points?",
+      "6*N":"Nice try. Each point has 6 directions of motion, but each edge is shared by how many points?",
+      "":"Hint: observe that there are 6 directions of motion at every point."
+    }
+  },
+  { "type":"short-answer",
+    "prompt":"How many edges will be in the search graph if all diagonal movements are allowed?  (Ignore boundaries, and assume edges are undirected)",
+    answers:["13N","13 N","13*N"],
+    feedback:{
+      "26N":"Nice try. Each point has 26 directions of motion, but each edge is shared by how many points?",
+      "26 N":"Nice try. Each point has 26 directions of motion, but each edge is shared by how many points?",
+      "26*N":"Nice try. Each point has 26 directions of motion, but each edge is shared by how many points?",
+      "27N":"Is the point connected to itself?",
+      "27 N":"Is the point connected to itself?",
+      "27*N":"Is the point connected to itself?",
+      "":"Hint: observe that there are 26 directions of motion at every point."
+    }
+  },
+  { "type":"freeform",
+    "prompt":"What can be said about the performance of a probabilistically complete path planner as more time is spent planning?  (Be sure to describe how it behaves in all conditions)"
+    "answer":"A probabilistically complete planner fails to find a feasible path, if one exists, with probability approaching 0 as more time is spent planning.  If no solution exists, it will (correctly) never produce a path regardless of how much time is spent."
+  },
+  { "type":"freeform",
+    "prompt":"If we have two probabilistically complete path planners P1 and P2, how could we compare their performance?",
+    "answer":"Possible metrics could include average time to find a feasible path, or likelihood of successfully finding a path given a fixed time budget.\n Note that several attempts would need to be run in order to get an estimate of either of these two metrics."
+  },
   { "type":"multiple-choice",
     "prompt":"What should the sampling strategy for a sampling-based motion planner attempt to do?",
     "options":["Develop a good graph search heuristic",
                "Voronoi bias",
                "Place more samples in regions with poor visibility",
                "Minimize the distance to previous configurations in the roadmap"],
-    "answer":2
+    "answer":2,
+    "feedback":[null,"An RRT does use a Voronoi bias as a sampling strategy, but in general this is not the primary objective of sampling",null,null]
   },
   { "type":"multiple-choice",
     "prompt":"What quantity generally is the least directly relevant to the performance of a sampling-based motion planner?",
@@ -47,7 +79,8 @@
                "The sampling strategy",
                "The number of obstacles",
                "The visibility properties of the free space"],
-    "answer":2
+    "answer":2,
+    "feedback":[null,null,"Although the number of obstacles may affect the speed of collision checking or reduce visibility, it is not directly related to performance",null]
   },  
   { "type":"multiple-choice",
     "prompt":"What changes might you need to make for a PRM motion planner to calculate paths for a robot that translates and rotates on a plane?",

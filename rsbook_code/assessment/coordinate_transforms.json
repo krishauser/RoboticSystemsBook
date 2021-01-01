@@ -1,0 +1,13 @@
+[
+    { "type":"freeform",
+      "prompt":"A mobile robot's coordinate systems consists of base frames (B) and a pan-tilt-zoom camera frame (C).  It has estimated that its base has transform $T_B^W$ relative to a world frame $W$. The reference position for the base is its center, with $X$ axis aligned to the robot's forward direction, $Y$ to its left, and $Z$ up. Relative to the robot's base, the camera link has transform $T_C^B$. Given this data, what calculation produces the position of the camera frame's origin in world coordinates? \nAssume each transform is given as a 4x4 homogeneous coordinate matrix, and points and directions are represented as 4D homogeneous coordinate vectors.",
+      "answer":"$T_B^W\\cdot T_C^B \\cdot [0,0,0,1]^T$.  The first product produces the transform from the camera to the world; the second product extracts out the translation component of the transform."
+    },
+    { "type":"freeform",
+      "prompt":"With the same setup as above, suppose that the Z vector in the camera's local frame denotes its forward direction, X denotes right, and Y denotes down (this is a typical camera convention).  Assuming the camera is looking straight ahead, give the rotation component of $T_C^B$ as a 3x3 matrix.",
+      "answer":"$\\begin{bmatrix} 0 & 0 & 1 \\\\ -1 & 0 & 0 \\\\ 0 & -1 & 0 \\end{bmatrix}$.  The camera Z vector gets mapped to the robot's X vector (3rd column), the camera's X vector gets mapped to the robot's negative Y vector, and the camera's Y vector gets mapped to the robot's negative Z vector."
+    }
+]
+
+
+

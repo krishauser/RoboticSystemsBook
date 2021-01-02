@@ -4,7 +4,7 @@ import errno
 from glob import glob
 import shutil
 
-program = "jupyter nbconvert --CodeFoldingPreprocessor.remove_folded_code=True"
+program = "jupyter nbconvert --CodeFoldingPreprocessor.remove_folded_code=True --TagRemovePreprocessor.remove_cell_tags=\"{'remove_cell_html'}\""
 target_default = 'html_with_toclenvs'
 targets = {'Book.ipynb':'html'}
 

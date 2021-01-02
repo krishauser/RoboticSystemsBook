@@ -1,95 +1,24 @@
 [
   { "type":"multiple-choice",
-    "prompt":"What is the dimensionality of the joint configuration space of four coordinated mobile robots, each of which moves in SE(2)?",
-    "options":["3","4","8","12","36"],
-    "answer":4,
-    "displayed":4,
-    "feedback":[null,"Recall the dimension of SE(2)","Recall the dimension of SE(2)",null,null],
-    "randomize":false
-  },
-  { "type":"multiple-choice",
-    "prompt":"What is the dimensionality of the joint configuration space of 6 quadcopters, each considered to be a rigid object moving in SE(3)?",
-    "options":["6",
-               "12",
-               "36",
+    "prompt":"What type of constraint is a self-collision constraint for an industrial manipulator?",
+    "options":["Local",
+               "Differential",
+               "Global",
                "None of the above"],
-    "feedback":[null,null,"SE(3) is 6-D, and the joint configuration space consists of 6 copies of SE(3)",null],
-    "answer":2
+    "feedback":["The constraint must be met at each configuration, and does not depend on the path's derivative.",null,null,null],
+    "answer":0
   },
   { "type":"multiple-choice",
-    "prompt":"For a disk robot translating in a plane, what can be said about the C-obstacle corresponding to a non-convex polygonal workspace obstacle?",
-    "options":["It is convex",
-               "It may contain holes",
-               "It is the set obtained by sweeping the robot so that it touches the boundary of the workspace obstacle, and taking the union of all of the disks.",
-               "It is impossible to calculate exactly"],
-    "feedback":[null,"It is not convex, and it can be calculated, so i and iv are incorrect.  iii is incorrect because 1) the interior of the obstacle is also part of the C-obstacle, and 2) the boundary of the set is obtained by sweeping the reference point of the robot so that the disk touches the boundary of the workspace obstacle.",null,null],
+    "prompt":"What type of constraint is the requirement that a tracked robot cannot move in the sideways direction?",
+    "options":["Local",
+               "Differential",
+               "Global",
+               "None of the above"],
+    "feedback":[null,"The constraint imposes a requirement on the path's derivative, so it is differential.",null,null],
     "answer":1
   },
-  { "type":"multiple-choice",
-    "prompt":"Given a robot that is a translating and rotating convex polygon, the C-space obstacle for a convex polygonal obstacle:",
-    "options":["Is convex",
-               "Has a boundary that consists of circular arcs and straight line segments",
-               "Has cross sections in the (x,y) plane at a fixed orientation value that are convex and polygonal",
-               "Is blob-shaped with a C1 smooth boundary"],
-    "answer":2
-  },
-  { "type":"short-answer",
-    "prompt":"Consider building a grid search planner for a robot that can translate in 3D, and need to decide whether to only allow axis-aligned movements at each step, or to also allow diagonal movements. If the grid has N vertices, how many edges will be in the search graph if only axis-aligned movements are allowed?  (Ignore boundaries, and assume edges are undirected)",
-    answers:["3N","3 N","3*N"],
-    feedback:{
-      "6N":"Nice try. Each point has 6 directions of motion, but each edge is shared by how many points?",
-      "6 N":"Nice try. Each point has 6 directions of motion, but each edge is shared by how many points?",
-      "6*N":"Nice try. Each point has 6 directions of motion, but each edge is shared by how many points?",
-      "":"Hint: observe that there are 6 directions of motion at every point."
-    }
-  },
-  { "type":"short-answer",
-    "prompt":"How many edges will be in the search graph if all diagonal movements are allowed?  (Ignore boundaries, and assume edges are undirected)",
-    answers:["13N","13 N","13*N"],
-    feedback:{
-      "26N":"Nice try. Each point has 26 directions of motion, but each edge is shared by how many points?",
-      "26 N":"Nice try. Each point has 26 directions of motion, but each edge is shared by how many points?",
-      "26*N":"Nice try. Each point has 26 directions of motion, but each edge is shared by how many points?",
-      "27N":"Is the point connected to itself?",
-      "27 N":"Is the point connected to itself?",
-      "27*N":"Is the point connected to itself?",
-      "":"Hint: observe that there are 26 directions of motion at every point."
-    }
-  },
   { "type":"freeform",
-    "prompt":"What can be said about the performance of a probabilistically complete path planner as more time is spent planning?  (Be sure to describe how it behaves in all conditions)"
-    "answer":"A probabilistically complete planner fails to find a feasible path, if one exists, with probability approaching 0 as more time is spent planning.  If no solution exists, it will (correctly) never produce a path regardless of how much time is spent."
-  },
-  { "type":"freeform",
-    "prompt":"If we have two probabilistically complete path planners P1 and P2, how could we compare their performance?",
-    "answer":"Possible metrics could include average time to find a feasible path, or likelihood of successfully finding a path given a fixed time budget.\n Note that several attempts would need to be run in order to get an estimate of either of these two metrics."
-  },
-  { "type":"multiple-choice",
-    "prompt":"What should the sampling strategy for a sampling-based motion planner attempt to do?",
-    "options":["Develop a good graph search heuristic",
-               "Voronoi bias",
-               "Place more samples in regions with poor visibility",
-               "Minimize the distance to previous configurations in the roadmap"],
-    "answer":2,
-    "feedback":[null,"An RRT does use a Voronoi bias as a sampling strategy, but in general this is not the primary objective of sampling",null,null]
-  },
-  { "type":"multiple-choice",
-    "prompt":"What quantity generally is the least directly relevant to the performance of a sampling-based motion planner?",
-    "options":["The speed of collision checking",
-               "The sampling strategy",
-               "The number of obstacles",
-               "The visibility properties of the free space"],
-    "answer":2,
-    "feedback":[null,null,"Although the number of obstacles may affect the speed of collision checking or reduce visibility, it is not directly related to performance",null]
-  },  
-  { "type":"multiple-choice",
-    "prompt":"What changes might you need to make for a PRM motion planner to calculate paths for a robot that translates and rotates on a plane?",
-    "options":["The distance function used in nearest-neighbors selection should handle rotations that pass through 0",
-               "Visibility checking (i.e., dynamic collision checking) should interpolate rotations in a geodesic manner when checking intermediate components",
-               "Rotation angles should be sampled from the range $[0,2\\pi)$",
-               "All of the above."],
-    "feedback":[null,null,null,"If you don't do each of the above, then paths that rotate through theta=0 will not be produced by the planner."],
-    "answer":3,
-    "randomize":false
+    "prompt":"A common strategy for solving mazes is the <i>right hand rule</i>, which states that if you start at a wall and keep following it such that the wall is always to your right, then you will either exit the maze or return to the place that you started.  How might you implement this in a behavior script for a wall-following mobile robot?  Assume that you are able to mark the wall, drop beacons, or otherwise track your position to remember where you have been.",
+    "answer":"There are many possible solutions, but here is one.  There are two states. In state 1, the robot moves forward until it hits a wall.  When it hits a wall, it marks its position, and switches to state 2.  In state 2, the robot first checks to see if there is a wall to its right.  If not, it turns to the right until a wall is detected.  If there is a wall and it not a marked position, move forward parallel to the wall.  If the wall is marked, turn to a random direction not facing the wall and switch to state 1."
   }
 ]

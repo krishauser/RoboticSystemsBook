@@ -387,16 +387,16 @@ class Quiz:
                 elif isinstance(feedback,dict):
                     feedback_str= feedback.get(answers[bestMatch],None)
             else:
-                lowest_distance = edit_distance+1
                 if isinstance(feedback,dict):
+                    lowest_distance = edit_distance+1
                     for (k,v) in feedback.items():
                         if case_sensitive:
                             d = edit_dist(answer,k)
                         else:
                             d = edit_dist(answer,k.lower())
-                    if d < lowest_distance:
-                        feedback_str= v
-                        lowest_distance = d
+                        if d < lowest_distance:
+                            feedback_str= v
+                            lowest_distance = d
             if feedback_str is None:
                 feedback_str = ''
             else:
@@ -461,7 +461,7 @@ class Quiz:
             self.number = number
         
         if lines is None:
-            lines = max(len(answer)//40,1)
+            lines = max(len(answer)//60,1)
         
         widget_items = []
         prompt = self.number_format.format(number) + prompt
@@ -514,45 +514,14 @@ class Quiz:
 
 BASE_PATH = os.path.split(__file__)[0]
 
-def show_coordinate_transforms():
+def show(fn):
     import json
     q = Quiz()
-    with open(os.path.join(BASE_PATH,'coordinate_transforms.json'),'r') as f:
+    with open(os.path.join(BASE_PATH,fn+'.json'),'r') as f:
         jsonobj = json.load(f)
     q.from_json(jsonobj)
     q.display()
 
-def show_rotations():
-    import json
-    q = Quiz()
-    with open(os.path.join(BASE_PATH,'rotations.json'),'r') as f:
-        jsonobj = json.load(f)
-    q.from_json(jsonobj)
-    q.display()
-
-def show_inverse_kinematics():
-    import json
-    q = Quiz()
-    with open(os.path.join(BASE_PATH,'inverse_kinematics.json'),'r') as f:
-        jsonobj = json.load(f)
-    q.from_json(jsonobj)
-    q.display()
-
-def show_geometry():
-    import json
-    q = Quiz()
-    with open(os.path.join(BASE_PATH,'geometry.json'),'r') as f:
-        jsonobj = json.load(f)
-    q.from_json(jsonobj)
-    q.display()
-
-def show_motion_planning():
-    import json
-    q = Quiz()
-    with open(os.path.join(BASE_PATH,'motion_planning.json'),'r') as f:
-        jsonobj = json.load(f)
-    q.from_json(jsonobj)
-    q.display()
 
 def self_test():
     display(widgets.HTML("<h2>Here's a test quiz</h2>"))

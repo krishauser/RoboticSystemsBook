@@ -1,25 +1,42 @@
 [
-    { "type":"multiple-choice",
-      "prompt":"The process of forward kinematics computes what quantity(ies)?",
-      "options":["A configuration that reaches a target point",
-            "A rotation matrix that blends between two rotations",
-            "The reachable workspace of a robot",
-            "Coordinate transforms of the robot's links at a given configuration"],
-      "answer":3
-    },
-    { "type":"short-answer",
-      "prompt":"What do you call a joint that rotates around an axis?",
-      "answers":['revolute']
-    },
-    { "type":"short-answer",
-      "prompt":"What do you call a joint that extends linearly along an axis?",
-      "answers":['prismatic']
-    },
-    { "type":"multiple-choice",
-      "prompt":"True or false: the number of links is equal to the number of joints plus 1 in all robots",
-      "options":["True","False"],
-      "randomize":false,
-      "answer":1,
-      "feedback":"For serial robots, this is true, but this is not true for closed-loop robots."
-    }
+  { "type":"multiple-choice",
+    "prompt":"What is the dimensionality of the joint configuration space of four coordinated mobile robots, each of which moves in SE(2)?",
+    "options":["3","4","8","12","36"],
+    "answer":4,
+    "displayed":4,
+    "feedback":[null,"Recall the dimension of SE(2)","Recall the dimension of SE(2)",null,null],
+    "randomize":false
+  },
+  { "type":"multiple-choice",
+    "prompt":"What is the dimensionality of the joint configuration space of 6 quadcopters, each considered to be a rigid object moving in SE(3)?",
+    "options":["6",
+               "12",
+               "36",
+               "None of the above"],
+    "feedback":[null,null,"SE(3) is 6-D, and the joint configuration space consists of 6 copies of SE(3)",null],
+    "answer":2
+  },
+  { "type":"multiple-choice",
+    "prompt":"The process of forward kinematics computes what quantity(ies)?",
+    "options":["A configuration that reaches a target point",
+          "A rotation matrix that blends between two rotations",
+          "The reachable workspace of a robot",
+          "Coordinate transforms of the robot's links at a given configuration"],
+    "answer":3
+  },
+  { "type":"short-answer",
+    "prompt":"What do you call a joint that rotates around an axis?",
+    "answers":["revolute"]
+  },
+  { "type":"short-answer",
+    "prompt":"What do you call a joint that extends linearly along an axis?",
+    "answers":["prismatic"]
+  },
+  { "type":"multiple-choice",
+    "prompt":"True or false: the number of links is equal to the number of joints plus 1 in all robots",
+    "options":["True","False"],
+    "randomize":false,
+    "answer":1,
+    "feedback":[null,"For serial robots, this is true, but this is not true for closed-loop robots."]
+  }
 ]

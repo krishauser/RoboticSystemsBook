@@ -1,0 +1,45 @@
+[
+  { "type":"multiple-choice",
+    "prompt":"For a disk robot translating in a plane, what can be said about the C-obstacle corresponding to a non-convex polygonal workspace obstacle?",
+    "options":["It is convex",
+               "It may contain holes",
+               "It is the set obtained by sweeping the robot so that it touches the boundary of the workspace obstacle, and taking the union of all of the disks.",
+               "It is impossible to calculate exactly"],
+    "feedback":[null,"It is not convex, and it can be calculated, so i and iv are incorrect.  iii is incorrect because 1) the interior of the obstacle is also part of the C-obstacle, and 2) the boundary of the set is obtained by sweeping the reference point of the robot so that the disk touches the boundary of the workspace obstacle.",null,null],
+    "answer":1
+  },
+  { "type":"multiple-choice",
+    "prompt":"Given a robot that is a translating and rotating convex polygon, the C-space obstacle for a convex polygonal obstacle:",
+    "options":["Is convex",
+               "Has a boundary that consists of circular arcs and straight line segments",
+               "Has cross sections in the (x,y) plane at a fixed orientation value that are convex and polygonal",
+               "Is blob-shaped with a C1 smooth boundary"],
+    "answer":2
+  },
+  { "type":"short-answer",
+    "prompt":"Consider building a grid search planner for a robot that can translate in 3D, and need to decide whether to only allow axis-aligned movements at each step, or to also allow diagonal movements. If the grid has N vertices, how many edges will be in the search graph if only axis-aligned movements are allowed?  (Ignore boundaries, and assume edges are undirected)",
+    "answers":["3N","3 N","3*N"],
+    "feedback":{
+      "6":"Don't forget to consider all N vertices of the grid.",
+      "6N":"Nice try. Each point has 6 directions of motion, but each edge is shared by how many points?",
+      "6 N":"Nice try. Each point has 6 directions of motion, but each edge is shared by how many points?",
+      "6*N":"Nice try. Each point has 6 directions of motion, but each edge is shared by how many points?",
+      "":"Hint: observe that there are 6 directions of motion at every point."
+    }
+  },
+  { "type":"short-answer",
+    "prompt":"How many edges will be in the search graph if all diagonal movements are allowed?  (Ignore boundaries, and assume edges are undirected)",
+    "answers":["13N","13 N","13*N"],
+    "feedback":{
+      "26":"Don't forget to consider all N vertices of the grid.",
+      "27":"Don't forget to consider all N vertices of the grid.",
+      "26N":"Nice try. Each point has 26 directions of motion, but each edge is shared by how many points?",
+      "26 N":"Nice try. Each point has 26 directions of motion, but each edge is shared by how many points?",
+      "26*N":"Nice try. Each point has 26 directions of motion, but each edge is shared by how many points?",
+      "27N":"Is the point connected to itself?",
+      "27 N":"Is the point connected to itself?",
+      "27*N":"Is the point connected to itself?",
+      "":"Hint: observe that there are 26 directions of motion at every point."
+    }
+  }
+]

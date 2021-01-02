@@ -1,0 +1,38 @@
+[
+  { "type":"freeform",
+    "prompt":"What can be said about the performance of a probabilistically complete path planner as more time is spent planning?  (Be sure to describe how it behaves in all conditions)",
+    "answer":"A probabilistically complete planner fails to find a feasible path, if one exists, with probability approaching 0 as more time is spent planning.  If no solution exists, it will (correctly) never produce a path regardless of how much time is spent."
+  },
+  { "type":"freeform",
+    "prompt":"If we have two probabilistically complete path planners P1 and P2, how could we compare their performance?",
+    "answer":"Possible metrics could include average time to find a feasible path, or likelihood of successfully finding a path given a fixed time budget.\n Note that several attempts would need to be run in order to get an estimate of either of these two metrics."
+  },
+  { "type":"multiple-choice",
+    "prompt":"What should the sampling strategy for a sampling-based motion planner attempt to do?",
+    "options":["Develop a good graph search heuristic",
+               "Voronoi bias",
+               "Place more samples in regions with poor visibility",
+               "Minimize the distance to previous configurations in the roadmap"],
+    "answer":2,
+    "feedback":[null,"An RRT does use a Voronoi bias as a sampling strategy, but in general this is not the primary objective of sampling",null,null]
+  },
+  { "type":"multiple-choice",
+    "prompt":"What quantity generally is the least directly relevant to the performance of a sampling-based motion planner?",
+    "options":["The speed of collision checking",
+               "The sampling strategy",
+               "The number of obstacles",
+               "The visibility properties of the free space"],
+    "answer":2,
+    "feedback":[null,null,"Although the number of obstacles may affect the speed of collision checking or reduce visibility, it is not directly related to performance",null]
+  },  
+  { "type":"multiple-choice",
+    "prompt":"What changes might you need to make for a PRM motion planner to calculate paths for a robot that translates and rotates on a plane?",
+    "options":["The distance function used in nearest-neighbors selection should handle rotations that pass through 0",
+               "Visibility checking (i.e., dynamic collision checking) should interpolate rotations in a geodesic manner when checking intermediate components",
+               "Rotation angles should be sampled from the range $[0,2\\pi)$",
+               "All of the above."],
+    "feedback":[null,null,null,"If you don't do each of the above, then paths that rotate through $\\theta=0$ will not be produced by the planner."],
+    "answer":3,
+    "randomize":false
+  }
+]

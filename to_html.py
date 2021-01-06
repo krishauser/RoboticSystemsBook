@@ -30,7 +30,8 @@ def replace_in_file(fn,src,dest):
     os.replace(fn+'.tmp',fn)
 
 for fn in glob("*.ipynb"):
-	os.system('%s --to %s "%s"'%(program,targets.get(fn,target_default),fn))
+    os.system('%s --to %s "%s"'%(program,targets.get(fn,target_default),fn))
 
 for fn in glob("*.html"):
-	replace_in_file(fn,".ipynb",".html")
+    replace_in_file(fn,".ipynb)",".html)")
+    replace_in_file(fn,".ipynb#",".html#")

@@ -12,9 +12,9 @@ class Quiz:
         self.number_format = "Q{}. "
         self.answer_format = "{}. "
         self.json_record = []
-        correct_style = "background:#8f8;padding:10px 25px 10px 25px;width:40%;float:right;line-height:16px;"
-        incorrect_style = "background:#f88;padding:10px 25px 10px 25px;width:40%;float:right;line-height:16px;"
-        selfcheck_style = "background:#ff8;padding:10px 25px 10px 25px;width:40%;float:right;line-height:16px;"
+        correct_style = "background:#8f8;padding:10px 25px 10px 25px;width:40%;float:right;line-height:16px;border-radius:16px;"
+        incorrect_style = "background:#f88;padding:10px 25px 10px 25px;width:40%;float:right;line-height:16px;border-radius:16px;"
+        selfcheck_style = "background:#ff8;padding:10px 25px 10px 25px;width:40%;float:right;line-height:16px;border-radius:16px;"
         self.header = """<style>
             .correct { %s !important; }
             .incorrect { %s !important; }

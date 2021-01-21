@@ -2,6 +2,7 @@ from IPython.display import display,HTML
 import ipywidgets as widgets
 import random
 import os
+import functools
 
 class Quiz:
     """Creates an IPython multiple choice quiz."""
@@ -356,11 +357,26 @@ class Quiz:
         container = widgets.Box([form,label])
         widget_items.append(container)
 
+        @functools.lru_cache(maxsize=None)
         def edit_dist(a, b):
-            return len(b) if not a else len(a) if not b \
-                 else min(edit_dist(a[1:], b[1:])+(a[0] != b[0]),
-                          edit_dist(a[1:], b)+1,
-                          edit_dist(a, b[1:])+1)
+            if not a: return len(b)
+            if not b: return len(a)
+            r1 = edit_dist(a[1:], b[1:])+(a[0] != b[0])
+            if r1 == 0: return 0
+            r2 = edit_dist(a[1:], b)+1
+            r3 = edit_dist(a, b[1:])+1
+            return min(r1,r2,r3)
+
+        @functools.lru_cache(maxsize=None)
+        def edit_dist_bnd(a, b, bound):
+            if not a: return len(b)
+            if not b: return len(a)
+            if abs(len(a) - len(b)) >= bound: return bound
+            r1 = edit_dist_bnd(a[1:], b[1:],bound)+(a[0] != b[0])
+            if r1 == 0: return 0
+            r2 = edit_dist_bnd(a[1:], b,bound)+1
+            r3 = edit_dist_bnd(a, b[1:],bound)+1
+            return min(r1,r2,r3)
 
         def on_submit(event):
             answer = form.value.strip()
@@ -371,9 +387,9 @@ class Quiz:
             bestMatch = None
             for i,a in enumerate(answers):
                 if case_sensitive:
-                    d = edit_dist(answer,a)
+                    d = edit_dist_bnd(answer,a,lowest_distance)
                 else:
-                    d = edit_dist(answer,a.lower())
+                    d = edit_dist_bnd(answer,a.lower(),lowest_distance)
                 if d < lowest_distance:
                     accept = True
                     bestMatch = i
@@ -391,9 +407,9 @@ class Quiz:
                     lowest_distance = edit_distance+1
                     for (k,v) in feedback.items():
                         if case_sensitive:
-                            d = edit_dist(answer,k)
+                            d = edit_dist_bnd(answer,k,lowest_distance)
                         else:
-                            d = edit_dist(answer,k.lower())
+                            d = edit_dist_bnd(answer,k.lower(),lowest_distance)
                         if d < lowest_distance:
                             feedback_str= v
                             lowest_distance = d

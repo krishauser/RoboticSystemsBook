@@ -29,11 +29,11 @@
       "answer":1
     },
     { "type":"short-answer",
-      "prompt":"The homogeneous coordinate representation for a 3D point (3.0,-2.45,0.1) is what? (do not include spaces in your answer)",
+      "prompt":"What is the homogeneous coordinate representation for a 3D point (3.0,-2.45,0.1)? (do not include spaces in your answer)",
       "answers":["(3.0,-2.45,0.1,1)","(3.0,-2.45,0.1,1.0)","[3.0,-2.45,0.1,1]","[3.0,-2.45,0.1,1.0]","3.0,-2.45,0.1,1","3.0,-2.45,0.1,1.0"]
     },
     { "type":"short-answer",
-      "prompt":"The homogeneous coordinate representation for the 2D displacement from (13,34) to (15,20) is? (do not include spaces in your answer)",
+      "prompt":"What is the homogeneous coordinate representation for the 2D displacement from (13,34) to (15,20)? (do not include spaces in your answer)",
       "answers":["(2,-14,0)","[2,-14,0]","2,-14,0"],
       "feedback": {"":"Make sure you subtract the destination from the source."}
     },

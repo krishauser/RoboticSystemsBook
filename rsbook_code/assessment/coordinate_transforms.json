@@ -1,4 +1,47 @@
 [
+    { "type":"multiple-choice",
+      "prompt":"True or false: 2D rotations are commutative ($R_1 \\cdot R_2 = R_2 \\cdot R_1 $).",
+      "options":["true","false"],
+      "answer":0,
+      "randomize":false
+    },
+    { "type":"multiple-choice",
+      "prompt":"True or false: 3D rotations are commutative ($R_1 \\cdot R_2 = R_2 \\cdot R_1 $).",
+      "options":["true","false"],
+      "answer":1,
+      "randomize":false
+    },
+    { "type":"multiple-choice",
+      "prompt":"True or false: 2D rigid transforms are commutative ($T_1 \\circ T_2 = T_2 \\circ T_1 $).",
+      "options":["true","false"],
+      "answer":1,
+      "randomize":false
+    },
+    { "type":"multiple-choice",
+      "prompt":"True or false: 3D rigid transforms are commutative ($T_1 \\circ T_2 = T_2 \\circ T_1 $).",
+      "options":["true","false"],
+      "answer":1,
+      "randomize":false
+    },
+    { "type":"multiple-choice",
+      "prompt":"A rigid transform is defined by preservation of what quantities?",
+      "options":["Length","Distance between points","Orientation","Determinant"],
+      "answer":1
+    },
+    { "type":"short-answer",
+      "prompt":"The homogeneous coordinate representation for a 3D point (3.0,-2.45,0.1) is what? (do not include spaces in your answer)",
+      "answers":["(3.0,-2.45,0.1,1)","(3.0,-2.45,0.1,1.0)","[3.0,-2.45,0.1,1]","[3.0,-2.45,0.1,1.0]","3.0,-2.45,0.1,1","3.0,-2.45,0.1,1.0"]
+    },
+    { "type":"short-answer",
+      "prompt":"The homogeneous coordinate representation for the 2D displacement from (13,34) to (15,20) is? (do not include spaces in your answer)",
+      "answers":["(2,-14,0)","[2,-14,0]","2,-14,0"],
+      "feedback": {"":"Make sure you subtract the destination from the source."}
+    },
+    { "type":"multiple-choice",
+      "prompt":"Which of the following is *not* a linear operator?",
+      "options":["Translation","Rotation","Uniform scaling","Nonuniform scaling","Homogeneous rigid transform"],
+      "answer":0
+    },
     { "type":"freeform",
       "prompt":"A mobile robot's coordinate systems consists of base frames (B) and a pan-tilt-zoom camera frame (C).  It has estimated that its base has transform $T_B^W$ relative to a world frame $W$. The reference position for the base is its center, with $X$ axis aligned to the robot's forward direction, $Y$ to its left, and $Z$ up. Relative to the robot's base, the camera link has transform $T_C^B$. Given this data, what calculation produces the position of the camera frame's origin in world coordinates? \nAssume each transform is given as a 4x4 homogeneous coordinate matrix, and points and directions are represented as 4D homogeneous coordinate vectors.",
       "answer":"$T_B^W\\cdot T_C^B \\cdot [0,0,0,1]^T$.  The first product produces the transform from the camera to the world; the second product extracts out the translation component of the transform."

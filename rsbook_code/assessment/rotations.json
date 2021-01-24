@@ -1,4 +1,46 @@
 [
+    { "type":"multiple-choice",
+      "prompt":"3D rotations belong to what topological space?",
+      "options":["SO(3)","SE(3)","$R^3$","$M^{3x3}$"],
+      "answer":0
+    },
+    { "type":"short-answer",
+      "prompt":"What is the dimension of the space of 3D rotations?",
+      "answers":["3"],
+      "feedback":{"9":"Remember that rotations are a small subset of all possible 3x3 matrices"}
+    },
+    { "type":"multiple-choice",
+      "prompt":"The composition of axis-aligned rotations $R_X(90^\\circ) R_Z(45^\\circ)$ can be interpreted in extrinsic form as...",
+      "options":[
+        "First rotating a coordinate frame about the local Z axis, then rotating about the local X axis",
+        "First rotating a coordinate frame about the world Z axis, then rotating about the world X axis",
+        "First rotating a coordinate frame about the world X axis, then rotating about the world Z axis",
+        "First rotating a coordinate frame about the local X axis, then rotating about the local Z axis"
+      ],
+      "answer":1,
+      "feedback":[
+        "Once the first rotation occurs about the Z axis, the local X axis is no longer aligned to the world X axis, which the $R_X$ matrix rotates around.",
+        "",
+        "Recall the order of operations proceeds from right to left",
+        "This is correct in the *intrinsic* view of rotations."
+        ]
+    },
+    { "type":"multiple-choice",
+      "prompt":"For which representation can any choice of N numbers define a proper 3D rotation?",
+      "options":[
+        "Rotation matrix",
+        "Euler angles",
+        "Axis angle",
+        "Quaternion"
+      ],
+      "answer":1,
+      "feedback":[
+        "The 9 numbers must satisfy orthogonality constraints",
+        "Although Euler angles typically are assumed to lie within a range, any angles will generate a valid rotation matrix",
+        "The 3 numbers describing the axis must satisfy the unit length constraint",
+        "The 4 numbers describing the quaternion must satisfy the unit length constraint"
+        ]
+    },
     { "type":"freeform",
       "prompt":"Give at least one reason why axis-angle representation may be preferable to a rotation matrix representation.",
       "answer":"There are several possible answers. Axis-angle representation is <ul><li>usually more intuitive to specify, <li>has fewer parameters (4), <li>it is easier to test whether a given 4 parameters are a valid representation (simply check if the axis is a unit vector), and <li>the domain of valid parameters is simpler to express.</ul>  (Both representations are fairly easy to invert.)" 

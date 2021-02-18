@@ -5,6 +5,7 @@ import sys
 import errno
 from glob import glob
 import shutil
+import time
 
 OUTPUT_DIR = 'html'
 if len(sys.argv) > 1:

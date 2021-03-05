@@ -72,7 +72,7 @@ def grid_node_neighbors_nd(index,diagonals=False,imin=None,imax=None,wrap=False)
         assert hasattr(wrap,'__iter__')
         assert len(wrap) == len(index),"Wrap array must have the same size as shape"
         in_bounds = lambda x,i: True if wrap[i] else imin[i] <= x <= imax[i]-1
-        enforce_bounds = x if not wrap[i] else (imax[i]-1 if x < imin[i] else (imin[i] if x >= imax[i] else x))
+        enforce_bounds = lambda x,i: x if not wrap[i] else (imax[i]-1 if x < imin[i] else (imin[i] if x >= imax[i] else x))
     
     if diagonals:
         for ofs in itertools.product(*[[-1,0,1]]*len(index)):

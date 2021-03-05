@@ -1,8 +1,9 @@
 from __future__ import print_function,division
 import math
 import numpy as np
+from ..dynamics import Dynamics
 
-class Pendulum:
+class Pendulum(Dynamics):
     """Defines a pendulum state space.  The state x is (theta,theta') and the
     control is u=torque.
     """
@@ -13,6 +14,12 @@ class Pendulum:
         self.viscosity = None
         self.umin = None
         self.umax = None
+
+    def stateDimension(self):
+        return 2
+    
+    def controlDimension(self):
+        return 1
     
     def derivative(self,x,u):
         """Returns x' = f(x,u)"""
@@ -24,18 +31,6 @@ class Pendulum:
             u = u[0]
         ddq = self.dynamics(q,dq,u)
         return np.array([dq,ddq])
-    
-    def next_state(self,x,u,dt,timestep=1e-3):
-        """Simulates forward for time dt and returns the resulting state x"""
-        assert len(x) == 2
-        assert callable(u) or isinstance(u,(int,float)) or len(u) == 1
-        q = x[0]
-        dq = x[1]
-        if not callable(u):
-            if hasattr(u,'__iter__'):
-                u = u[0]
-            u = lambda t,q,dq:u
-        return self.simulate(q,dq,u,dt,timestep)['x'][-1]
         
     def dynamics(self,theta,dtheta,u):
         """Returns forward dynamics theta''=f(theta,theta',u).  u is the
@@ -50,7 +45,7 @@ class Pendulum:
         ddtheta = (u+visc-m*c*self.g)/(L*m)
         return ddtheta
 
-    def inverse_dynamics(self,q,dq,ddq):
+    def inverse_dynamics(self,theta,dtheta,ddtheta):
         """Returns inverse dynamics u=g(theta,theta',theta'')"""
         c = math.cos(theta)
         s = math.sin(theta)
@@ -58,7 +53,7 @@ class Pendulum:
         visc=0.0
         if self.viscosity is not None:
             visc = -self.viscosity*dtheta
-        u = L*m*(ddtheta-visc+m*c*self.g)
+        u = self.L*m*(ddtheta-visc+m*c*self.g)
         return u
 
     def simulate(self,q0,dq0,ufunc,dt=1e-3,T=1):
@@ -87,3 +82,9 @@ class Pendulum:
             q=q%(math.pi*2)
             t += dt
         return res    
+
+    def integrate(self,x,dx):
+        """For non-Euclidean (e.g., geodesic) spaces, implement this."""
+        xnext = x+dx
+        xnext[0] = xnext[0]%(math.pi*2)
+        return xnext

@@ -32,6 +32,7 @@ class OptimalControlProblem:
         self.stateChecker = stateChecker
         self.controlChecker = controlChecker
         self.controlSampler = controlSampler
+        self.dt = dt
 
     def isPointToPoint(self):
         return hasattr(self.goal,'__iter__')
@@ -52,12 +53,14 @@ class ControlSampler:
 
 class LookaheadPolicy:
     """Converts a value function into a 1-step lookahead policy."""
-    def __init__(self,dynamics,dt,controlSampler,objective,goal,valueFunction):
-        self.dynamics = dynamics
-        self.dt = dt
-        self.controlSampler = controlSampler
-        self.objective = objective
-        self.goal = goal
+    def __init__(self,problem,valueFunction,goal=None):
+        self.dynamics = problem.dynamics
+        self.controlSampler = problem.controlSampler
+        self.objective = problem.objective
+        if goal is None:
+            self.goal = problem.goal
+        else:
+            self.goal = goal
         self.valueFunction = valueFunction
 
     def __call__(self,x):
@@ -65,25 +68,25 @@ class LookaheadPolicy:
         bestcost = float('inf')
         us = self.controlSampler.sample(x)
         for u in us:
-            xnext = self.dynamics.nextState(x,u,self.dt)
+            xnext = self.dynamics.nextState(x,u)
             if self.dynamics.validState(xnext):
-                cost = self.objective.edgeCost(x,u,self.dt,xnext)
+                cost = self.objective.incremental(x,u)
                 v = self.valueFunction(xnext)
                 #print "Value of going from",x,"control",u,"to",xnext,"is",cost,"+",v,"=",cost+v
                 if v + cost < bestcost:
                     bestcost = v + cost
                     bestcontrol = u
-        if self.goal is None or self.goal(x):
+        if self.goal is None or (callable(self.goal) and self.goal(x)):
             #check whether to terminate
             tcost = self.objective.terminalCost(x)
             if tcost <= bestcost or self.goalabsorbing:
-                print "Better to terminate, cost,",tcost
+                #print("Better to terminate, cost,",tcost)
                 return None
         return bestcontrol
 
 
 
-def rolloutPolicy(dynamics,x,control,dt,numSteps):
+def rollout_policy(dynamics,x,control,dt,numSteps):
     """Returns a state trajectory and control trajectory of length
     numSteps+1 and numSteps, respectively.
 
@@ -104,7 +107,7 @@ def rolloutPolicy(dynamics,x,control,dt,numSteps):
             if u is None: break
             us.append(u)
             xnext = dynamics.nextState(xs[-1],u)
-            #print "After",xs[-1],"control",u,"for time",dt,"result is",xnext
+            #print("After",xs[-1],"control",u,"for time",dt,"result is",xnext)
             xs.append(xnext)
     else:
         assert len(control) >= numSteps

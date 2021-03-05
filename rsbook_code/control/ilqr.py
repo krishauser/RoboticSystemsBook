@@ -35,7 +35,7 @@ class iLQR:
         self.dynamics= dynamics
         if isinstance(self.dynamics,Dynamics):
             if dt is None:
-                raise TypeError("If `dynamics` is a Dynamics object, then `dt` must be provided)
+                raise TypeError("If `dynamics` is a Dynamics object, then `dt` must be provided")
             assert dt > 0
             self.dynamics = IntegratorControlSpace(dynamics,dt)
         else:
@@ -96,7 +96,7 @@ class iLQR:
             if gnorm < gtol:
                 return True,'Convergence to stationary point'
             knorm = np.linalg.norm(self.gains[1])
-            if verbose:
+            if self.verbose:
                 print("iLQR: Norm of nominal step size: %.3f, gradient norm %.3f"%(knorm,gnorm))
             if np.dot(g.flatten(),self.gains[1].flatten()) > 0:
                 if self.verbose:

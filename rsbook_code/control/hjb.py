@@ -1,8 +1,8 @@
 from __future__ import print_function,division
 import itertools
 import numpy as np
-from .optimalcontrol import OptimalControlProblem,LookaheadPolicy
-
+from .optimalcontrol import OptimalControlProblem,LookaheadPolicy,rollout_policy
+from ..utilities.astar_fibheap import AStar
 
 class RobustRegularGridInterpolator:
     """Like RegularGridInterpolator but handles interpolation with Inf and NaN
@@ -41,7 +41,7 @@ class RobustRegularGridInterpolator:
                 ind.append(np.searchsorted(d,v)-1)
         return ind
     def evalNearest(self,point):
-        print "EVALUATING NEAREST???"
+        print("EVALUATING NEAREST???")
         if len(point) != len(self.divs):
             raise ValueError("Invalid size of point")
         index = self.getCell(point)
@@ -69,13 +69,13 @@ class RobustRegularGridInterpolator:
             else:
                 verts.append((i,i+1))
                 uinterp.append((v-d[i])/(d[i+1]-d[i]))
-        #print "Cell range",verts,"params",uinterp
+        #print("Cell range",verts,"params",uinterp)
         cellslice = tuple([slice(v[0],v[1]+1) for v in verts])
         vcell = self.values[cellslice]
-        #print vcell
+        #print(vcell)
         try:
             while len(vcell.shape) > 0:
-                #print "Cell",vcell
+                #print("Cell",vcell)
                 if vcell.shape[-1] == 1:
                     vcell = vcell[...,0]
                 else:
@@ -102,29 +102,26 @@ class HJBSolver:
 
     The goalabsorbing attribute tells this whether to assume the goal set is absorbing.
     """
-    def __init__(self,dynamics,controlSampler,dt,objective,
+    def __init__(self,problem,
                 stateBounds,stateDivs,
-                goal=None,goalabsorbing='auto'):
+                goalabsorbing='auto'):
         """
         Args:
-            dynamics (DynamicSystem):
-            controlSampler (ControlSampler):
-            dt (float):
-            objective (ObjectiveFunction):
+            problem (OptimalControlProblem): contains the dynamics, objective, and goal.
+                Also, problem.controlSampler must be defined
             stateBounds (list of pairs): the range [(x1min,x1max),...,(xnmin,xnmax)]
                 over which the grid is defined.
             stateDivs (list of ints): the number of divisions of the state space.
-            goal (state, list of states, or function, optional): the goal
-                state(s) or a goal test. If None, all states can be goals.
             goalabsorbing (bool, optional).  Sets whether the goal set is absorbing or
-                not.  If 'auto', this is set to False if goal = None (otherwise everything
-                would be absorbing).  If goal is a point or a function, it is assumed
-                absorbing.
+                not.  If 'auto', this is set to False if problem.goal = None (otherwise 
+                everything would be absorbing).  If problem.goal is a point or a function,
+                it is assumed absorbing.
         """
-        self.dynamics = dynamics
-        self.controlSampler = controlSampler
-        self.dt = dt
-        self.objective = objective
+        self.problem = problem
+        self.dynamics = problem.dynamics
+        self.controlSampler = problem.controlSampler
+        assert problem.controlSampler is not None
+        self.objective = problem.objective
         self.maxSubSteps = 20
         assert len(stateBounds) == len(stateDivs)
         numCells = np.prod(stateDivs)
@@ -142,33 +139,33 @@ class HJBSolver:
         self.value.fill(float('inf'))
         self.policy = np.full(stateDivs,None,dtype=object)
         self.terminal = np.full(stateDivs,False,dtype=bool)
-        if goal is not None and hasattr(goal,'__iter__'):
-            if hasattr(goal[0],'__iter__'):
-                goals = goal
+        if problem.goal is not None and hasattr(problem.goal,'__iter__'):
+            if hasattr(problem.goal[0],'__iter__'):
+                goals = problem.goal
             else:
-                goals = [goal]
+                goals = [problem.goal]
                 
             #it's one or more states, mark all other states as having infinite cost
             for g in goals:
                 index = self.stateToCell(g)
                 assert self.validCell(index),"Goal "+str(g)+" is not in the grid"
-                self.value[index] = self.objective.terminalCost(goal)
+                self.value[index] = self.objective.terminal(problem.goal)
                 self.terminal[index] = True
             self.goalTest = None
             if goalabsorbing == 'auto':
                 goalabsorbing = True
         else:
-            if not callable(goal):
+            if not callable(problem.goal):
                 raise TypeError("Goal must be a state, list of states, or function")
             #it's a goal test or None, evaluate all terminal state costs
-            self.goalTest = goal
+            self.goalTest = problem.goal
             for index in np.ndindex(*self.value.shape):
                 x = self.cellToCenterState(index)
-                if goal is None or goal(x):
+                if problem.goal is None or problem.goal(x):
                     self.terminal[index] = True
-                    self.value[index] = self.objective.terminalCost(x)
+                    self.value[index] = self.objective.terminal(x)
             if goalabsorbing == 'auto':
-                goalabsorbing = (goal is not None)
+                goalabsorbing = (problem.goal is not None)
         self.goalabsorbing = goalabsorbing
 
         dims = [np.linspace(a+c*0.5, b-c*0.5, d) for (a,b,c,d) in zip(self.stateMin,self.stateMax,self.gridResolution,self.stateDivs)]
@@ -215,24 +212,24 @@ class HJBSolver:
                     numtransitions += 1
                     for i in range(1,self.maxSubSteps+1):
                         numsubsteps += 1
-                        if not self.dynamics.validControl(xtemp,u):
+                        if not self.problem.controlValid(xtemp,u):
                             xtemp = None
                             break 
-                        xnext = self.dynamics.nextState(xtemp,u,self.dt)
+                        xnext = self.dynamics.nextState(xtemp,u)
                         indexnext = self.stateToCell(xnext)
-                        if not self.dynamics.validState(xnext) or not self.validCell(indexnext):
+                        if not self.problem.stateValid(xnext) or not self.validCell(indexnext):
                             xtemp = None
                             break
-                        cost += self.objective.edgeCost(xtemp,u,self.dt,xnext)
+                        cost += self.objective.incremental(xtemp,u)
                         xtemp = xnext
                         if indexnext != index:
                             break
                     if xtemp is not None:
                         options.append((xtemp,u,cost))
             if numsubsteps > numtransitions*2:
-                print "Building transition matrix: took an average of",float(numsubsteps)/float(numtransitions),"substeps, may consider changing the step size"
+                print("Building transition matrix: took an average of",float(numsubsteps)/float(numtransitions),"substeps, may consider changing the step size")
             #transition matrix is built
-        for it in xrange(iters):
+        for it in range(iters):
             maxdelta = 0
             for index in np.ndindex(*self.value.shape):
                 bestcontrol = None
@@ -268,7 +265,7 @@ class HJBSolver:
         """
         if not lookahead:
             return self.policy[self.stateToCell(x)]
-        return LookaheadPolicy(self.dynamics,self.dt,self.controlSampler,self.objective,self.goal,self.valueInterpolator)(x)
+        return LookaheadPolicy(self.problem,self.valueInterpolator)(x)
 
 
 class OptimalControlTreeSolver(AStar):
@@ -281,30 +278,25 @@ class OptimalControlTreeSolver(AStar):
 
     It can also be used to do a backwards search.  The dynamics function must
     accept the reverse dynamics, and terminalAsStartCost=True uses the objective
-    function's terminalCost method to determine the start cost.
+    function's terminal() method to determine the start cost.
 
     Reverse dynamics means that the dynamics.nextState(x,u,dt) function should
     be able to accept a negative dt, which should return the state xprev such
     that integrating the forward dynamics over duration -dt with control u
     should end up in x.
     """
-    def __init__(self,dynamics,controlSampler,dt,objective,
+    def __init__(self,problem,
                 stateBounds,stateDivs,
-                start,goal=None,goalabsorbing='auto',
+                start=None,goalabsorbing='auto',
                 terminalAsStartCost=False):
         """
         Args:
-            dynamics (DynamicSystem):
-            controlSampler (ControlSampler):
-            dt (float):
-            objective (ObjectiveFunction):
+            problem (OptimalControlProblem)
             stateBounds (list of pairs): the range [(x1min,x1max),...,(xnmin,xnmax)]
                 over which the grid is defined.
             stateDivs (list of ints): the number of divisions of the state space.
-            start (state, list of states, or function): the start state(s)
-                or a start test.
-            goal (state, list of states, or function, optional): the goal
-                state(s) or a goal test. If None, all states can be goals.
+            start (state, list of states, function, or None): the start state(s)
+                or a start test. If None, uses x0 in problem.
             goalabsorbing (bool, optional).  Sets whether the goal set is absorbing or
                 not.  If 'auto', this is set to False if goal = None (otherwise everything
                 would be absorbing).  If goal is a point or a function, it is assumed
@@ -313,10 +305,10 @@ class OptimalControlTreeSolver(AStar):
         AStar.__init__(self)
         self.maxVisitedPerCell = 1
         self.maxSubSteps = 20
-        self.dynamics = dynamics
-        self.controlSampler = controlSampler
-        self.dt = dt
-        self.objective = objective
+        self.dynamics = problem.dynamics
+        self.controlSampler = problem.controlSampler
+        assert problem.controlSampler is not None
+        self.objective = problem.objective
         self.terminalAsStartCost = terminalAsStartCost
         assert len(stateBounds) == len(stateDivs)
         numCells = np.prod(stateDivs)
@@ -333,6 +325,8 @@ class OptimalControlTreeSolver(AStar):
         self.visited = np.full(stateDivs,None,dtype=object)
         
         self.start = start
+        if start is None:
+            self.start = problem.x0
         if callable(start):
             #multiple start states, make a virtual start state
             self.start = []
@@ -344,7 +338,7 @@ class OptimalControlTreeSolver(AStar):
             if len(self.startStates) == 0:
                 raise ValueError("No start cells in grid")
             if terminalAsStartCost:
-                self.startCosts = [objective.terminalCost(x) for x in self.startStates]
+                self.startCosts = [problem.objective.terminal(x) for x in self.startStates]
             else:
                 self.startCosts = [0.0]*len(self.startStates)
         elif hasattr(start,'__iter__') and hasattr(start[0],'__iter__'):
@@ -352,25 +346,25 @@ class OptimalControlTreeSolver(AStar):
             self.start = []
             self.startStates = start
             if terminalAsStartCost:
-                self.startCosts = [objective.terminalCost(x) for x in self.startStates]
+                self.startCosts = [problem.objective.terminal(x) for x in self.startStates]
             else:
                 self.startCosts = [0.0]*len(self.startStates)
 
-        if goal is not None and hasattr(goal,'__iter__'):
+        if problem.goal is not None and hasattr(problem.goal,'__iter__'):
             #it's a single state, mark all other states as having infinite cost
-            if hasattr(goal[0],'__iter__'):
-                goals = goal
+            if hasattr(problem.goal[0],'__iter__'):
+                goals = problem.goal
             else:
-                goals = [goal]
+                goals = [problem.goal]
             self.goalCells = set([self.stateToCell(g) for g in goals])
             self.goalTest = lambda x: self.stateToCell(x) in self.goalCells
             if goalabsorbing == 'auto':
                 goalabsorbing = True
         else:
             #it's a goal test or None, evaluate all terminal state costs
-            self.goalTest = goal
+            self.goalTest = problem.goal
             if goalabsorbing == 'auto':
-                goalabsorbing = (goal is not None)
+                goalabsorbing = (problem.goal is not None)
         self.goalabsorbing = goalabsorbing
 
         self.set_start(self.start)
@@ -496,7 +490,7 @@ class OptimalControlTreeSolver(AStar):
             if self.terminalAsStartCost:
                 costs.append(0)
             else:
-                costs.append(self.objective.terminalCost(state))
+                costs.append(self.objective.terminal(state))
             actions.append(None)
             if self.goalabsorbing:
                 #no possible extra actions
@@ -510,13 +504,13 @@ class OptimalControlTreeSolver(AStar):
             x = state
             cost = 0
             for steps in range(1,self.maxSubSteps+1):
-                if not self.dynamics.validControl(x,u):
+                if not self.problem.controlValid(x,u):
                     xnext = None
                     break            
-                xnext = self.dynamics.nextState(x,u,self.dt)
-                cost += self.objective.edgeCost(x,u,self.dt,xnext)
+                xnext = self.dynamics.nextState(x,u)
+                cost += self.objective.incremental(x,u)
                 cell = tuple(self.stateToCell(xnext))
-                if not self.dynamics.validState(xnext) or not self.validCell(cell):
+                if not self.problem.stateValid(xnext) or not self.validCell(cell):
                     xnext = None
                     break
                 if cell != stateCell: #left the initial cell, add it
@@ -530,7 +524,7 @@ class OptimalControlTreeSolver(AStar):
                 costs.append(cost)
                 actions.append((steps,u))
         #if len(uniqueCells)==1 and len(children) > 0:
-        #    print "Problem setting grid resolution or step size: all children of node",state,"are in the same cell?"
+        #    print("Problem setting grid resolution or step size: all children of node",state,"are in the same cell?")
         return children,costs,actions
 
 
@@ -570,7 +564,7 @@ class GridCostFunctionDisplay:
             from IPython.display import display
             is_interactive = True
         except ImportError as e:
-            print "GridCostFunctionDisplay: can't show interactive dimension selectors"
+            print("GridCostFunctionDisplay: can't show interactive dimension selectors")
             is_interactive = False
         if is_interactive:
             if len(self.cost.shape) > 2:
@@ -589,7 +583,7 @@ class GridCostFunctionDisplay:
                     w = widgets.IntSlider(min=0,max=self.cost.shape[i]-1,value=self.referenceCell[i],description="Ref cell "+str(i))
                     w.observe(lambda change,dim=i:setReferenceCell(change['new'],dim), names='value')
                     display(w)
-            if self.policy is not None and self.policyDims > 1:
+            if self.policyDims is not None and self.policyDims > 1:
                 def setPolicyIndex(index):
                     self.policyIndex = index
                     self.refresh(self.cost,self.policy)
@@ -620,7 +614,7 @@ class GridCostFunctionDisplay:
             sliceindex[self.xindex] = slice(0,cost.shape[self.xindex])
             sliceindex[self.yindex] = slice(0,cost.shape[self.yindex])
             sliceindex = tuple(sliceindex)
-            #print "Reading slice",sliceindex
+            #print("Reading slice",sliceindex)
             costplot = self.axcost.pcolormesh(X, Y, cost[sliceindex].T)
         self.cbarcost = plt.colorbar(costplot,ax=self.axcost)
         if policy is not None:
@@ -642,7 +636,7 @@ class GridCostFunctionDisplay:
     def plotTrajectory(self,xs,onplot='cost',**kwargs):
         """Plots the projection of a trajectory on the current axes"""
         #for x,u in zip(xs[1:],us):
-        #    print x,u
+        #    print(x,u)
         xs = np.asarray(xs)
         ax = self.axcost if onplot == 'cost' else self.axpolicy
         ax.plot(xs[:,self.xindex],xs[:,self.yindex],**kwargs)
@@ -650,8 +644,8 @@ class GridCostFunctionDisplay:
     def plotRollout(self,x0,policy,numSteps,dt=None,onplot='cost',**kwargs):
         """Plots the rollout of a trajectory"""
         if dt is None:
-            dt = grid.dt
-        xs,us = rolloutPolicy(self.gridSolver.dynamics,x0,policy,dt,numSteps)
+            dt = self.grid.dt
+        xs,us = rollout_policy(self.gridSolver.dynamics,x0,policy,dt,numSteps)
         self.plotTrajectory(xs,onplot,**kwargs)
 
     def plotFlow(self,policy,onplot='cost',**kwargs):
@@ -662,7 +656,7 @@ class GridCostFunctionDisplay:
             x = self.gridSolver.cellToCenterState(index)
             u = policy(x)
             if u is not None:
-                dx = self.gridSolver.dynamics.dynamics(x,u)
+                dx = self.gridSolver.dynamics.dynamics.derivative(x,u)
                 U[j,i] = dx[self.xindex]
                 V[j,i] = dx[self.yindex]
         ax = self.axcost if onplot == 'cost' else self.axpolicy
@@ -671,8 +665,8 @@ class GridCostFunctionDisplay:
     def shownIndices(self):
         """returns an iterator over displayed grid cells.  Iterated value is pairs ((i,j),index)"""
         index = [v for v in self.referenceCell]
-        for i in xrange(self.cost.shape[self.xindex]):
-            for j in xrange(self.cost.shape[self.yindex]):
+        for i in range(self.cost.shape[self.xindex]):
+            for j in range(self.cost.shape[self.yindex]):
                 index[self.xindex] = i
                 index[self.yindex] = j
                 yield ((i,j),tuple(index))
@@ -706,7 +700,7 @@ class GridCostFunctionDisplay:
                 if n.state is not None and len(n.state) > 0:
                     doplot = True
                     index = self.gridSolver.stateToCell(n.state)
-                    for i in xrange(len(self.cost.shape)):
+                    for i in range(len(self.cost.shape)):
                         if i == self.xindex or i == self.yindex:
                             continue
                         if index[i] != self.referenceCell[i]:

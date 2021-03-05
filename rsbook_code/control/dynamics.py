@@ -1,4 +1,6 @@
 from __future__ import print_function,division
+from ..utilities import differences
+import numpy  as np
 
 MAX_INTEGRATION_STEPS = 10000
 
@@ -36,7 +38,6 @@ class ControlSpace:
         return self.nextState_jacobian_diff(x,u)
     
     def nextState_jacobian_diff(self,x,u,h=1e-4):
-        from ..utilities import difference
         Jx = differences.jacobian_forward_difference((lambda y:self.nextState(y,u)),x,h)
         Ju = differences.jacobian_forward_difference((lambda v:self.nextState(x,v)),u,h)
         return (Jx,Ju)
@@ -104,7 +105,6 @@ class Dynamics:
         return self.derivative_jacobian_diff(x,u)
         
     def derivative_jacobian_diff(self,x,u,h=1e-4):
-        from ..utilities import difference
         Jx = differences.jacobian_forward_difference((lambda y:self.derivative(y,u)),x,h)
         Ju = differences.jacobian_forward_difference((lambda v:self.derivative(x,v)),u,h)
         return (Jx,Ju)
@@ -126,6 +126,10 @@ class Dynamics:
             #print("  Differenced",dJu)
             res = False
         return res
+
+    def integrate(self,x,dx):
+        """For non-Euclidean (e.g., geodesic) spaces, implement this."""
+        return x+dx
 
 
 class IntegratorControlSpace (ControlSpace):
@@ -159,7 +163,7 @@ class IntegratorControlSpace (ControlSpace):
             dx = self.dynamics.derivative(path[-1],u)
             assert len(dx)==len(x),"Derivative %s dimension not equal to state dimension: %d != %d"%(self.dynamics.__class__.__name__,len(dx),len(x))
             dt = min(dt0,duration-t)
-            xnew = path[-1] + dx*dt
+            xnew = self.dynamics.integrate(path[-1],dx*dt)
             path.append(xnew)
             t = min(t+dt0,duration)
         return path
@@ -169,3 +173,21 @@ class IntegratorControlSpace (ControlSpace):
         return self.trajectory(x,u)
 
 
+def simulate(dynamics,x0,ufunc,T=1,dt=1e-3):
+    """Returns a simulation trace of dynamics using Euler integration over
+    duration T and time step dt.  ufunc is a policy u(t,x).
+    """
+    assert len(x0)==dynamics.stateDimension()
+    res = dict((idx,[]) for idx in ['t','x','u','dx'])
+    t = 0
+    while t < T:
+        u = ufunc(t,x0)
+        assert len(u) == dynamics.controlDimension()
+        dx = dynamics.derivatve(x0,u)
+        res['t'].append(t)
+        res['x'].append(x0)
+        res['dx'].append(dx)
+        res['u'].append(u)
+        x0 = dynamics.integrate(x0,dt*dx)
+        t += dt
+    return res

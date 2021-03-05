@@ -27,6 +27,7 @@ class ObjectiveFunction:
     def cost(self,xpath,upath):
         """Helper: returns the total cost of a given state,control trajectory"""
         if upath is None:
+            c = 0.0
             for i in range(len(xpath)-1):
                 c += self.incremental(xpath[i],None)
             return c + self.terminal(xpath[-1])
@@ -260,10 +261,10 @@ class _ProductObjectiveFunction(ObjectiveFunction):
     def incremental_hessian(self,x,u):
         f = self.f.incremental(x,u)
         fx,fu = self.f.incremental_gradient(x,u)
-        fxx,fxu,fxx = self.f.incremental_hessian(x,u)
+        fxx,fxu,fuu = self.f.incremental_hessian(x,u)
         g = self.g.incremental(x,u)
         gx,gu = self.g.incremental_gradient(x,u)
-        gxx,gxu,gxx = self.g.incremental_hessian(x,u)
+        gxx,gxu,guu = self.g.incremental_hessian(x,u)
         fgx = np.outer(fx,gx)
         fgu = np.outer(fu,gu)
         return (f*gxx + fgx + fgx.T + g*fxx,f*gxu + np.outer(fx,gu) + np.outer(gx,fu), + g*fxu,f*guu + fgu + fgu.T + g*fuu)

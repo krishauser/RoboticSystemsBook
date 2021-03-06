@@ -54,6 +54,7 @@ class ControlSampler:
 class LookaheadPolicy:
     """Converts a value function into a 1-step lookahead policy."""
     def __init__(self,problem,valueFunction,goal=None):
+        self.problem = problem
         self.dynamics = problem.dynamics
         self.controlSampler = problem.controlSampler
         self.objective = problem.objective
@@ -69,7 +70,7 @@ class LookaheadPolicy:
         us = self.controlSampler.sample(x)
         for u in us:
             xnext = self.dynamics.nextState(x,u)
-            if self.dynamics.validState(xnext):
+            if self.problem.stateValid(xnext):
                 cost = self.objective.incremental(x,u)
                 v = self.valueFunction(xnext)
                 #print "Value of going from",x,"control",u,"to",xnext,"is",cost,"+",v,"=",cost+v
@@ -78,7 +79,7 @@ class LookaheadPolicy:
                     bestcontrol = u
         if self.goal is None or (callable(self.goal) and self.goal(x)):
             #check whether to terminate
-            tcost = self.objective.terminalCost(x)
+            tcost = self.objective.terminal(x)
             if tcost <= bestcost or self.goalabsorbing:
                 #print("Better to terminate, cost,",tcost)
                 return None

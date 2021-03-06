@@ -101,6 +101,9 @@ class HJBSolver:
     inexact.
 
     The goalabsorbing attribute tells this whether to assume the goal set is absorbing.
+
+    Parameters:
+        maxSubSteps (int): number of steps to take to exit a cell.  Default 20
     """
     def __init__(self,problem,
                 stateBounds,stateDivs,
@@ -227,7 +230,7 @@ class HJBSolver:
                     if xtemp is not None:
                         options.append((xtemp,u,cost))
             if numsubsteps > numtransitions*2:
-                print("Building transition matrix: took an average of",float(numsubsteps)/float(numtransitions),"substeps, may consider changing the step size")
+                print("Building transition matrix: took an average of",float(numsubsteps)/float(numtransitions),"substeps, you may consider changing the step size")
             #transition matrix is built
         for it in range(iters):
             maxdelta = 0
@@ -284,6 +287,11 @@ class OptimalControlTreeSolver(AStar):
     be able to accept a negative dt, which should return the state xprev such
     that integrating the forward dynamics over duration -dt with control u
     should end up in x.
+
+    Parameters:
+        maxVisitedPerCell (int): # of times a cell can be visited (default 1)
+        maxSubSteps (int): # of steps to take to attempt to exit a cell (default 20)
+    
     """
     def __init__(self,problem,
                 stateBounds,stateDivs,
@@ -305,6 +313,7 @@ class OptimalControlTreeSolver(AStar):
         AStar.__init__(self)
         self.maxVisitedPerCell = 1
         self.maxSubSteps = 20
+        self.problem = problem
         self.dynamics = problem.dynamics
         self.controlSampler = problem.controlSampler
         assert problem.controlSampler is not None
@@ -417,7 +426,7 @@ class OptimalControlTreeSolver(AStar):
                     return n
             return None
         else:
-            return min((n.g,n) for n in nodes)[1]
+            return min(nodes,key=lambda n:n.g)
 
     def costToCome(self):
         """Returns the grid of costs taken to optimally reach each node.
@@ -531,7 +540,7 @@ class OptimalControlTreeSolver(AStar):
 
 class GridCostFunctionDisplay:
     """Helper for displaying HJBSolver or OptimalControlTreeSolver results."""
-    def __init__(self,gridSolver,cost,policy=None,policyDims=None):
+    def __init__(self,gridSolver,cost,policy=None,policyDims=None,figsize=(8,6),**kwargs):
         import matplotlib.pyplot as plt
         self.gridSolver = gridSolver
         self.slices = [np.linspace(a, b, d) for (a,b,d) in zip(gridSolver.stateMin,gridSolver.stateMax,gridSolver.stateDivs)]
@@ -541,9 +550,9 @@ class GridCostFunctionDisplay:
         self.cbarcost = None
         self.cbarpolicy = None
         if policy is not None:
-            self.fig,(self.axcost,self.axpolicy) = plt.subplots(1,2,figsize=(8,4))
+            self.fig,(self.axcost,self.axpolicy) = plt.subplots(1,2,figsize=figsize,**kwargs)
         else:
-            self.fig = plt.figure(figsize=(8,6))
+            self.fig = plt.figure(figsize=figsize,**kwargs)
             self.axcost = self.fig.gca()
             self.axpolicy = None
         self.cost = cost

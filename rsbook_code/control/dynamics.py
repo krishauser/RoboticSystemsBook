@@ -175,7 +175,18 @@ class IntegratorControlSpace (ControlSpace):
 
 def simulate(dynamics,x0,ufunc,T=1,dt=1e-3):
     """Returns a simulation trace of dynamics using Euler integration over
-    duration T and time step dt.  ufunc is a policy u(t,x).
+    duration T and time step dt. 
+    
+    Args:
+        dynamics (Dynamics): the system.
+        x0 (np.ndarray): the initial state.
+        ufunc (callable): a policy u(t,x) returning a control vector.
+        T (float): integration duration
+        dt (float): time step
+    
+    Returns:
+        dict: maps 't', 'x', 'u', 'dx' to traces of these time, state, control,
+        and derivative, respectively.
     """
     assert len(x0)==dynamics.stateDimension()
     res = dict((idx,[]) for idx in ['t','x','u','dx'])
@@ -183,7 +194,7 @@ def simulate(dynamics,x0,ufunc,T=1,dt=1e-3):
     while t < T:
         u = ufunc(t,x0)
         assert len(u) == dynamics.controlDimension()
-        dx = dynamics.derivatve(x0,u)
+        dx = dynamics.derivative(x0,u)
         res['t'].append(t)
         res['x'].append(x0)
         res['dx'].append(dx)

@@ -49,7 +49,7 @@ class iLQR:
         self.costGradients = None
         self.verbose = verbose
 
-    def run(self,x,u,maxIters,xtol=1e-7,gtol=1e-7,ftol=1e-7,damping=1e-5):
+    def run(self,x,u,maxIters,xtol=1e-7,gtol=1e-7,ftol=1e-7,damping=1e-4,maxLineSearchIters=20):
         if len(u)==0:
             raise ValueError("Cannot optimize with no controls")
         if not hasattr(x[0],'__iter__'):
@@ -90,7 +90,7 @@ class iLQR:
         
         for iter in range(maxIters):
             alpha = 1.0
-            self.backward()
+            self.backward(damping)
             g = self.costGradients
             gnorm = np.linalg.norm(g)
             if gnorm < gtol:
@@ -107,7 +107,7 @@ class iLQR:
             #self.gains[1][:] = -g
             lineSearchIters = 0
             alpha0 = alpha
-            while alpha*knorm > xtol and lineSearchIters < maxIters:
+            while alpha*knorm > xtol and lineSearchIters < maxLineSearchIters:
                 lineSearchIters += 1
                 xu = self.forward(alpha)
                 if xu is None:
@@ -142,7 +142,7 @@ class iLQR:
             self.value[0][:] = Ja
             J0 = Ja[0]
             
-            if alpha*knorm <= xtol or lineSearchIters == maxIters:
+            if alpha*knorm <= xtol or lineSearchIters == maxLineSearchIters:
                 if self.verbose:
                     print("iLQR: Inner iterations stalled at",lineSearchIters,"LS iters, step size",alpha,", gradient norm",knorm,"< tolerance",xtol)
                     print("   COST",self.objective.cost(self.xref,self.uref))
@@ -157,7 +157,7 @@ class iLQR:
         return False,'Max iters reached'
     
     def evalCosts(self,x,u,cbranch=float('inf')):
-        """Returns vector of value function evaluated along trajectory."""
+        """Returns vector of value function (cost to go) evaluated along trajectory."""
         T = len(u)
         assert T+1 == len(x)
         costs = np.empty(len(x))
@@ -171,11 +171,11 @@ class iLQR:
             c = self.objective.incremental(xt,ut)
             costs[i] = costs[i+1] + c
             if costs[i] > cbranch:
-                costs[0] = costs[i]
+                costs[0:i] = costs[i]
                 return costs
         return costs
 
-    def backward(self,damping=1e-3):
+    def backward(self,damping):
         """Computes the LQR backup centered around self.xref,self.uref.
         
         Will fill out self.gains, self.costGradients, and the 2nd and 3rd
@@ -190,7 +190,7 @@ class iLQR:
             raise ValueError()
         self.value[1][-1] = Vx
         self.value[2][-1] = Vxx
-        print("iLQR BACKWARDS PASS")
+        #print("iLQR BACKWARDS PASS")
         #print("   Terminal cost",self.objective.terminal(self.xref[T]))
         #print("   Terminal grad",Vx)
         #print("   Terminal Hessian",Vxx)
@@ -208,18 +208,35 @@ class iLQR:
             Vxc = Vx
             Qx = cx + fx.T.dot(Vxc)
             Qu = cu + fu.T.dot(Vxc)
-            if damping > 0:
-                Quu = (Quu + Quu.T)*0.5
-                Quu_evals, Quu_evecs = np.linalg.eig(Quu)
-                Quu_evals[Quu_evals < 0] = 0.0
-                Quu_evals += damping
-                QuuInv = np.dot(Quu_evecs,np.dot(np.diag(1.0/Quu_evals),Quu_evecs.T))
-            else:
-                QuuInv = np.linalg.pinv(Quu)
+            try:
+                if damping > 0:
+                    Quu = (Quu + Quu.T)*0.5
+                    Quu_evals, Quu_evecs = np.linalg.eig(Quu)
+                    Quu_evals[Quu_evals < 0] = 0.0
+                    Quu_evals += damping
+                    QuuInv = np.dot(Quu_evecs,np.dot(np.diag(1.0/Quu_evals),Quu_evecs.T))
+                else:
+                    QuuInv = np.linalg.pinv(Quu)
+            except np.linalg.LinAlgError:
+                print("Numerical error inverting Quu at timestep",i)
+                print("X:",xt,"U:",ut)
+                print("Quu",Quu)
+                print("Vxx",Vxx)
+                print("fu",fu)
+                print("cuu",cuu)
+                raise
             K = -QuuInv.dot(Qxu.T)
             k = -QuuInv.dot(Qu)
             temp = Qxu.dot(K)
             Vxx = Qxx + temp + temp.T + K.T.dot(Quu.dot(K))
+            if not np.isfinite(Vxx).all():
+                print("Numerical error: instability is being introduced at timestep",i)
+                print("X:",xt,"U:",ut)
+                print("Qxx",Qxx)
+                print("Quu",Quu)
+                print("K",K)
+                print("Qxu.dot(K)",Qxu.dot(K))
+                raise ValueError("Non-finite Vxx at timestep %d"%(i,))
             Vx = Qx + Qxu.dot(k) + K.T.dot(Qu+Quu.dot(k))
             #print("   Vf grad",Vx)
             #print("   Vf Hessian",Vxx)

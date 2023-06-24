@@ -169,6 +169,13 @@ class IntegratorControlSpace (ControlSpace):
         return path
     def nextState(self,x,u):
         return self.trajectory(x,u)[-1]
+    def nextState_jacobian(self,x,u):
+        if self.dt < self.T:
+            #don't yet know how to do compounding derivative of trajectory 
+            return self.nextState_jacobian_diff(x,u)
+        else:
+            dx,du = self.dynamics.derivative_jacobian(x,u)
+            return np.eye(len(x))+dx*self.dt,du*self.dt
     def interpolator(self,x,u):
         return self.trajectory(x,u)
 

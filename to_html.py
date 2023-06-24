@@ -44,6 +44,7 @@ for fn in glob("*.ipynb"):
 
 for fn in glob(OUTPUT_DIR+"/*.html"):
     replace_in_file(fn,".ipynb\"",".html\"")
+    replace_in_file(fn,".ipynb#",".html#")
 
 eqn_numbering_location = """<!-- End of mathjax configuration --></head>"""
 

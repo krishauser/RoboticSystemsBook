@@ -13,7 +13,9 @@ class ObjectiveFunction:
     To use numerical optimizers, subclasses should implement the
     incremental_gradient, incremental_hessian, terminal_gradient,
     and terminal_hessian functions.  Finite difference functions are
-    provided for that.
+    provided for a subclass implementer's convenience.  If you are writing
+    your own functions, you may use self.checkDerivatives(...) to self-test
+    your derivative functions.
     
     Objective functions can be scaled by multiplication (* operator), and added
     together (+ operator).
@@ -50,7 +52,8 @@ class ObjectiveFunction:
         """Return d^2f/dx^2.  Return terminal_hessian_diff """
         return np.zeros((len(x),len(x)))
     
-    #subclasses can copy and paste the below code
+    #subclasses can copy and paste the below code to use finite-differences to approximate
+    #gradients.
     #def incremental_gradient(self,x,u):
     #    return self.incremental_gradient_diff(x,u)
     #def incremental_hessian(self,x,u):
@@ -128,11 +131,43 @@ class ObjectiveFunction:
         return _ProductObjectiveFunction(self,rhs)
     def __rmul__(self,rhs):
         return _MulObjectiveFunction(self,rhs)
-    
+
+
+class QuadraticObjectiveFunction(ObjectiveFunction):
+    """Penalizes state and control effort L(x,u,t) = 1/2 (x-goal)^T P (x-goal) + 1/2 u^T Q u,
+    Phi(x) = 1/2 (x-goal)^T R (x-goal).
+    """
+    def __init__(self,P,Q,R,goal=None):
+        self.P = P
+        self.Q = Q
+        self.R = R
+        self.goal = goal
+        if goal is None:
+            self.goal = np.zeros(P.shape[0])
+    def incremental(self,x,u):
+        x = np.asarray(x)-self.goal
+        u = np.asarray(u)
+        return np.dot(x,np.dot(self.P,x))*0.5 + np.dot(u,np.dot(self.Q,u))*0.5    
+    def incremental_gradient(self,x,u):
+        x = np.asarray(x)-self.goal
+        u = np.asarray(u)
+        return  (np.dot(self.P,x),np.dot(self.Q,u))
+    def incremental_hessian(self,x,u):
+        return (self.P,np.zeros((len(x),len(u))),self.Q)
+    def terminal(self,x):
+        x = np.asarray(x)-self.goal
+        return 0.5*np.dot(x,np.dot(self.R,x))
+    def terminal_gradient(self,x):
+        x = np.asarray(x)-self.goal
+        return np.dot(self.R,x)
+    def terminal_hessian(self,x):
+        return self.R
+
 
 class LambdaObjectiveFunction(ObjectiveFunction):
     """Adapts a function incremental(x,u) and/or terminal(x) to an
-    ObjectiveFunction object.
+    ObjectiveFunction object.  Also uses automatically uses finite
+    differences for gradients/hessians.
     """
     def __init__(self,incremental=None,terminal=None):
         self.fincremental = incremental

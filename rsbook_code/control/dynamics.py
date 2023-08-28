@@ -193,7 +193,8 @@ def simulate(dynamics,x0,ufunc,T=1,dt=1e-3):
     
     Returns:
         dict: maps 't', 'x', 'u', 'dx' to traces of these time, state, control,
-        and derivative, respectively.
+        and derivative, respectively.  The traces for t and x are 1 longer
+        than the traces for u and dx
     """
     assert len(x0)==dynamics.stateDimension()
     res = dict((idx,[]) for idx in ['t','x','u','dx'])
@@ -207,5 +208,7 @@ def simulate(dynamics,x0,ufunc,T=1,dt=1e-3):
         res['dx'].append(dx)
         res['u'].append(u)
         x0 = dynamics.integrate(x0,dt*dx)
-        t += dt
+        t += dt   
+    res['t'].append(t)
+    res['x'].append(x0)
     return res

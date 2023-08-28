@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 27.5.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 182.85 114.1" style="enable-background:new 0 0 182.85 114.1;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#919090;stroke:#000000;stroke-width:0.5;stroke-miterlimit:10;}
+	.st1{fill:none;stroke:#010101;stroke-width:0.5;stroke-miterlimit:10;}
+	.st2{fill:#F16163;stroke:#5F0A0C;stroke-width:0.5;stroke-miterlimit:10;}
+	.st3{fill:none;}
+	.st4{font-family:'TimesNewRomanPS-ItalicMT';}
+	.st5{font-size:12px;}
+	.st6{fill:#010101;}
+	.st7{fill:none;stroke:#09783D;stroke-miterlimit:10;}
+	.st8{fill:#09783D;}
+	.st9{fill:#6EBE45;stroke:#010101;stroke-miterlimit:10;}
+	.st10{fill:#EA8B23;stroke:#010101;stroke-miterlimit:10;}
+	.st11{fill:none;stroke:#000000;stroke-miterlimit:10;}
+	.st12{fill:none;stroke:#000000;stroke-miterlimit:10;stroke-dasharray:3.2329,3.2329;}
+	.st13{fill:none;stroke:#792675;stroke-miterlimit:10;}
+	.st14{fill:none;stroke:#792675;stroke-miterlimit:10;stroke-dasharray:2.6409,2.6409;}
+	.st15{fill:none;stroke:#000000;stroke-miterlimit:10;stroke-dasharray:2.8702,2.8702;}
+	.st16{fill:none;stroke:#000000;stroke-miterlimit:10;stroke-dasharray:2.8147,2.8147;}
+	.st17{fill:#FBEE23;stroke:#010101;stroke-miterlimit:10;}
+</style>
+<path class="st0" d="M112.45,57.49c-12.44-6.71-19.18-15.44-29.28-6.1s-17.11,20.76-0.39,21.25s27.51-0.93,31.28-3.86
+	C117.84,65.85,120.95,62.08,112.45,57.49z"/>
+<path class="st0" d="M0,74.21c22.68-2.06,40.2-7.83,40.82-21.65s0.82-25.97-16.7-38.96S0,6.39,0,6.39V74.21z"/>
+<path class="st0" d="M42.05,0c6.18,15.25,12.37,24.33,29.89,21.65s31.33-1.65,40.2,5.46s19.58,24.11,29.07,26.43
+	c9.48,2.33,41.64-20.56,41.64-20.56V0H42.05z"/>
+<rect class="st1" width="182.85" height="99.78"/>
+<path class="st2" d="M171.68,68.08c4.48-13.92-4.79-22.19-16.06-10.5s-19.25,16.62-15.49,25.25c3.09,7.1,21.13,13.3,27.23,7.86
+	S168.93,76.64,171.68,68.08z"/>
+<rect x="23.07" y="84.92" class="st3" width="15.08" height="11.97"/>
+<text transform="matrix(1 0 0 1 23.0684 93.318)" class="st4 st5">x</text>
+<text transform="matrix(0.583 0 0 0.583 28.3946 97.3141)" class="st4 st5">0</text>
+<rect x="80.81" y="79.28" class="st3" width="19.62" height="11.97"/>
+<text transform="matrix(1 0 0 1 80.8055 87.6773)" class="st4 st5">x</text>
+<text transform="matrix(0.583 0 0 0.583 86.1316 91.6734)" class="st4 st5">rand</text>
+<rect x="53.91" y="49.96" class="st3" width="19.62" height="11.97"/>
+<text transform="matrix(1 0 0 1 53.9099 58.3638)" class="st4 st5">x</text>
+<text transform="matrix(0.583 0 0 0.583 59.2361 62.3599)" class="st4 st5">e</text>
+<g>
+	<line class="st6" x1="17.26" y1="93.13" x2="21.75" y2="77.4"/>
+	<g>
+		<line class="st7" x1="17.26" y1="93.13" x2="20.09" y2="83.2"/>
+		<g>
+			<path class="st8" d="M21.75,77.4c0.23,3.02,1,6.9,2.23,9.52l-4.1-2.96l-5.04,0.35C17.26,82.73,19.96,79.84,21.75,77.4z"/>
+		</g>
+	</g>
+</g>
+<circle class="st9" cx="17.26" cy="93.13" r="3.04"/>
+<circle class="st10" cx="75.8" cy="85.77" r="2.16"/>
+<g>
+	<g>
+		<g>
+			<path class="st11" d="M15.78,60.02c0.23,0.45,0.44,0.9,0.65,1.35"/>
+			<path class="st12" d="M17.67,64.36c2.74,7.43,3.33,15.71,1.27,23.86"/>
+			<path class="st11" d="M18.51,89.78c-0.14,0.48-0.29,0.95-0.45,1.43"/>
+		</g>
+	</g>
+	<g>
+		<g>
+			<path class="st13" d="M13.49,114.1c0.02-0.5,0.05-1,0.08-1.5"/>
+			<path class="st14" d="M13.8,109.97c0.48-4.74,1.4-9.51,2.8-14.23"/>
+			<path class="st13" d="M16.99,94.47c0.15-0.48,0.3-0.95,0.46-1.43"/>
+		</g>
+	</g>
+	<g>
+		<g>
+			<path class="st11" d="M17.46,41.24c0.16,0.47,0.33,0.94,0.48,1.42"/>
+			<path class="st15" d="M18.78,45.4c4.01,13.92,4.23,29.08-0.14,43.9"/>
+			<path class="st11" d="M18.23,90.68c-0.15,0.48-0.3,0.95-0.46,1.43"/>
+		</g>
+	</g>
+	<path class="st11" d="M18.06,91.21c5.07-15.13,17.05-25.98,31.25-30.24"/>
+	<g>
+		<g>
+			<path class="st11" d="M17.36,93.02c0.16-0.47,0.32-0.95,0.49-1.42"/>
+			<path class="st16" d="M18.81,88.95c4.62-12.2,11.22-23.12,19.3-32.51"/>
+			<path class="st11" d="M39.04,55.38c0.33-0.37,0.66-0.75,1-1.12"/>
+		</g>
+	</g>
+</g>
+<circle class="st17" cx="50.18" cy="60.97" r="2.16"/>
+</svg>

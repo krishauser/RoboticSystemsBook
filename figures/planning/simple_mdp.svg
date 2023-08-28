@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 27.5.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 481.08 165.57" style="enable-background:new 0 0 481.08 165.57;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FFFFFF;stroke:#000000;stroke-miterlimit:10;}
+	.st1{fill:none;}
+	.st2{font-family:'MyriadPro-Regular';}
+	.st3{font-size:12px;}
+	.st4{fill:#3A53A4;}
+	.st5{font-size:10px;}
+	.st6{fill:none;stroke:#000000;stroke-miterlimit:10;}
+	.st7{fill:none;stroke:#E41E26;stroke-miterlimit:10;}
+	.st8{fill:#E41E26;}
+	.st9{fill:#65BC46;}
+</style>
+<ellipse class="st0" cx="96.75" cy="29.08" rx="33.1" ry="15.49"/>
+<rect x="83.89" y="25.35" class="st1" width="33.98" height="13.48"/>
+<text transform="matrix(1 0 0 1 83.8854 33.8685)" class="st2 st3">Alive</text>
+<ellipse class="st0" cx="46.81" cy="144.4" rx="33.1" ry="15.49"/>
+<path class="st0" d="M46.81,156.9c-17.74,0-30.1-6.58-30.1-12.49c0-5.91,12.36-12.49,30.1-12.49s30.1,6.58,30.1,12.49
+	C76.91,150.31,64.54,156.9,46.81,156.9z"/>
+<rect x="26.72" y="140.68" class="st1" width="41.2" height="13.48"/>
+<text transform="matrix(1 0 0 1 26.7169 149.197)" class="st2 st3">Heaven</text>
+<ellipse class="st0" cx="144.87" cy="144.4" rx="33.1" ry="15.49"/>
+<path class="st0" d="M144.87,156.9c-17.74,0-30.1-6.58-30.1-12.49c0-5.91,12.36-12.49,30.1-12.49s30.1,6.58,30.1,12.49
+	C174.97,150.31,162.6,156.9,144.87,156.9z"/>
+<rect x="135.34" y="140.68" class="st1" width="33.98" height="13.48"/>
+<text transform="matrix(1 0 0 1 135.3351 149.197)" class="st2 st3">Hell</text>
+<rect x="35.08" y="75.24" class="st1" width="51.51" height="17.26"/>
+<text transform="matrix(1 0 0 1 35.0764 83.7624)" class="st2 st3">Mild</text>
+<rect x="133.22" y="75.24" class="st1" width="51.51" height="17.26"/>
+<text transform="matrix(1 0 0 1 133.216 83.7624)" class="st2 st3">Wild</text>
+<rect x="123.6" y="39.24" class="st1" width="23.46" height="16.72"/>
+<text transform="matrix(1 0 0 1 123.6047 46.3391)" class="st4 st2 st5">-1</text>
+<rect x="168.95" y="154.16" class="st1" width="31.7" height="16.72"/>
+<text transform="matrix(1 0 0 1 168.9528 161.26)" class="st4 st2 st5">-100</text>
+<rect x="70.04" y="154.16" class="st1" width="31.7" height="16.72"/>
+<text transform="matrix(1 0 0 1 70.037 161.26)" class="st4 st2 st5">+100</text>
+<g>
+	<g>
+		<line class="st6" x1="86.58" y1="43.82" x2="54.41" y2="62.05"/>
+		<g>
+			<path d="M55.97,61.16l3.68,2.05l-0.07,0.13l-6.26,0.87c-2,0.62-4.01,1.23-6.01,1.85c1.56-1.4,3.12-2.8,4.68-4.2l3.96-4.93
+				l0.14-0.01L55.97,61.16z"/>
+		</g>
+	</g>
+</g>
+<g>
+	<g>
+		<line class="st6" x1="105.6" y1="44.57" x2="137.77" y2="62.8"/>
+		<g>
+			<path d="M136.21,61.91l-0.13-4.22l0.15-0.01l3.96,4.93c1.56,1.4,3.12,2.8,4.68,4.2c-2-0.62-4.01-1.23-6.01-1.85l-6.26-0.87
+				l-0.08-0.11L136.21,61.91z"/>
+		</g>
+	</g>
+</g>
+<g>
+	<g>
+		<line class="st7" x1="46.81" y1="94.38" x2="46.81" y2="122.88"/>
+		<g>
+			<path class="st8" d="M46.81,128.91c-1.05-2.84-2.85-6.36-4.76-8.55l4.76,1.72l4.75-1.72C49.66,122.55,47.86,126.07,46.81,128.91z
+				"/>
+		</g>
+	</g>
+</g>
+<g>
+	<g>
+		<line class="st7" x1="144.87" y1="94.38" x2="144.87" y2="123.04"/>
+		<g>
+			<path class="st8" d="M144.87,129.07c-1.05-2.84-2.85-6.36-4.76-8.55l4.76,1.72l4.75-1.72
+				C147.72,122.71,145.92,126.23,144.87,129.07z"/>
+		</g>
+	</g>
+</g>
+<g>
+	<g>
+		<line class="st7" x1="137.41" y1="94.38" x2="72.3" y2="128.27"/>
+		<g>
+			<path class="st8" d="M66.95,131.06c2.03-2.25,4.33-5.47,5.39-8.16l0.67,5.01l3.72,3.42C73.91,130.65,69.95,130.68,66.95,131.06z"
+				/>
+		</g>
+	</g>
+</g>
+<g>
+	<g>
+		<path class="st7" d="M35.08,94.38l-9.57,9.57c-2.33,2.33-5.5,3.64-8.8,3.64H15c-6.4,0-11.6-5.19-11.6-11.6V67.35
+			c0-4.03,1.91-7.82,5.15-10.22L71.99,6.46c2.12-1.57,4.69-3.42,7.32-3.42h9.79c2.84,0,5.31,1.99,6.63,4.58"/>
+		<g>
+			<path class="st8" d="M96.75,13.58C95.16,11,92.71,7.9,90.41,6.13l5,0.75l4.33-2.62C98.3,6.78,97.23,10.59,96.75,13.58z"/>
+		</g>
+	</g>
+</g>
+<polygon class="st8" points="144.87,103.55 119.79,103.55 126.49,100.06 144.87,100.06 "/>
+<polygon class="st8" points="46.1,103.55 25.51,103.55 29.24,100.06 46.1,100.06 "/>
+<rect x="20.19" y="66.07" class="st6" width="51.83" height="28.31"/>
+<rect x="118.33" y="66.07" class="st6" width="51.83" height="28.31"/>
+<rect x="4.25" y="109" class="st1" width="23.54" height="12.64"/>
+<text transform="matrix(1 0 0 1 4.2521 116.0974)" class="st2 st5">90%</text>
+<rect x="111.83" y="109" class="st1" width="23.54" height="12.64"/>
+<text transform="matrix(1 0 0 1 111.8331 116.0974)" class="st2 st5">60%</text>
+<rect x="149.49" y="109" class="st1" width="23.54" height="12.64"/>
+<text transform="matrix(1 0 0 1 149.4936 116.0974)" class="st2 st5">40%</text>
+<rect x="50.08" y="109" class="st1" width="23.54" height="12.64"/>
+<text transform="matrix(1 0 0 1 50.0782 116.0974)" class="st2 st5">10%</text>
+<ellipse class="st0" cx="317.88" cy="29.08" rx="33.1" ry="15.49"/>
+<rect x="305.01" y="25.35" class="st1" width="33.98" height="13.48"/>
+<text transform="matrix(1 0 0 1 305.0114 33.8685)" class="st2 st3">Alive</text>
+<ellipse class="st0" cx="267.93" cy="144.4" rx="33.1" ry="15.49"/>
+<path class="st0" d="M267.93,156.9c-17.74,0-30.1-6.58-30.1-12.49c0-5.91,12.36-12.49,30.1-12.49s30.1,6.58,30.1,12.49
+	C298.03,150.31,285.67,156.9,267.93,156.9z"/>
+<rect x="247.84" y="140.68" class="st1" width="41.2" height="13.48"/>
+<text transform="matrix(1 0 0 1 247.8429 149.197)" class="st2 st3">Heaven</text>
+<ellipse class="st0" cx="365.99" cy="144.4" rx="33.1" ry="15.49"/>
+<path class="st0" d="M365.99,156.9c-17.74,0-30.1-6.58-30.1-12.49c0-5.91,12.36-12.49,30.1-12.49s30.1,6.58,30.1,12.49
+	C396.09,150.31,383.73,156.9,365.99,156.9z"/>
+<rect x="356.46" y="140.68" class="st1" width="33.98" height="13.48"/>
+<text transform="matrix(1 0 0 1 356.4611 149.197)" class="st2 st3">Hell</text>
+<rect x="256.2" y="75.24" class="st1" width="51.51" height="17.26"/>
+<text transform="matrix(1 0 0 1 256.2024 83.7624)" class="st2 st3">Mild</text>
+<rect x="354.34" y="75.24" class="st1" width="51.51" height="17.26"/>
+<text transform="matrix(1 0 0 1 354.342 83.7624)" class="st2 st3">Wild</text>
+<rect x="344.73" y="39.24" class="st1" width="23.46" height="16.72"/>
+<text transform="matrix(1 0 0 1 344.7307 46.3391)" class="st4 st2 st5">-1</text>
+<rect x="390.08" y="154.16" class="st1" width="31.7" height="16.72"/>
+<text transform="matrix(1 0 0 1 390.0788 161.26)" class="st4 st2 st5">-100</text>
+<rect x="394.16" y="54.2" class="st1" width="90.37" height="23.73"/>
+<text transform="matrix(1 0 0 1 394.163 61.3027)"><tspan x="0" y="0" class="st9 st2 st5">Q(A,W)=20</tspan><tspan x="0" y="12" class="st9 st2 st5">(0.6*100+0.4*(-100))</tspan></text>
+<rect x="335.89" y="6.59" class="st1" width="179.44" height="23.73"/>
+<text transform="matrix(1 0 0 1 335.894 13.6902)" class="st9 st2 st5">V(A)=max(Q(A,M),Q(A,W))</text>
+<rect x="291.16" y="154.16" class="st1" width="31.7" height="16.72"/>
+<text transform="matrix(1 0 0 1 291.163 161.26)" class="st4 st2 st5">+100</text>
+<g>
+	<g>
+		<line class="st6" x1="307.71" y1="43.82" x2="275.54" y2="62.05"/>
+		<g>
+			<path d="M277.1,61.16l3.68,2.05l-0.07,0.13l-6.26,0.87c-2,0.62-4.01,1.23-6.01,1.85c1.56-1.4,3.12-2.8,4.68-4.2l3.96-4.93
+				l0.14-0.01L277.1,61.16z"/>
+		</g>
+	</g>
+</g>
+<g>
+	<g>
+		<line class="st6" x1="326.73" y1="44.57" x2="358.9" y2="62.8"/>
+		<g>
+			<path d="M357.34,61.91l-0.13-4.22l0.15-0.01l3.96,4.93c1.56,1.4,3.12,2.8,4.68,4.2c-2-0.62-4.01-1.23-6.01-1.85l-6.26-0.87
+				l-0.08-0.11L357.34,61.91z"/>
+		</g>
+	</g>
+</g>
+<g>
+	<g>
+		<line class="st7" x1="267.93" y1="94.38" x2="267.93" y2="122.88"/>
+		<g>
+			<path class="st8" d="M267.93,128.91c-1.05-2.84-2.85-6.36-4.76-8.55l4.76,1.72l4.75-1.72
+				C270.78,122.55,268.99,126.07,267.93,128.91z"/>
+		</g>
+	</g>
+</g>
+<g>
+	<g>
+		<line class="st7" x1="365.99" y1="94.38" x2="365.99" y2="123.04"/>
+		<g>
+			<path class="st8" d="M365.99,129.07c-1.05-2.84-2.85-6.36-4.76-8.55l4.76,1.72l4.75-1.72
+				C368.84,122.71,367.05,126.23,365.99,129.07z"/>
+		</g>
+	</g>
+</g>
+<g>
+	<g>
+		<line class="st7" x1="358.53" y1="94.38" x2="293.43" y2="128.27"/>
+		<g>
+			<path class="st8" d="M288.08,131.06c2.03-2.25,4.33-5.47,5.39-8.16l0.67,5.01l3.72,3.42
+				C295.04,130.65,291.08,130.68,288.08,131.06z"/>
+		</g>
+	</g>
+</g>
+<g>
+	<g>
+		<path class="st7" d="M256.2,94.38l-9.57,9.57c-2.33,2.33-5.5,3.64-8.8,3.64h-1.71c-6.4,0-11.6-5.19-11.6-11.6V67.35
+			c0-4.03,1.91-7.82,5.15-10.22l63.44-50.67c2.12-1.57,4.69-3.42,7.32-3.42h9.79c2.84,0,5.31,1.99,6.63,4.58"/>
+		<g>
+			<path class="st8" d="M317.88,13.58c-1.59-2.58-4.04-5.68-6.34-7.45l5,0.75l4.33-2.62C319.43,6.78,318.36,10.59,317.88,13.58z"/>
+		</g>
+	</g>
+</g>
+<polygon class="st8" points="365.99,103.55 340.92,103.55 347.62,100.06 365.99,100.06 "/>
+<polygon class="st8" points="267.23,103.55 246.63,103.55 250.36,100.06 267.23,100.06 "/>
+<rect x="241.31" y="66.07" class="st6" width="51.83" height="28.31"/>
+<rect x="339.45" y="66.07" class="st6" width="51.83" height="28.31"/>
+<rect x="190.77" y="52.58" class="st1" width="90.37" height="23.73"/>
+<text transform="matrix(1 0 0 1 190.7732 59.6848)"><tspan x="0" y="0" class="st9 st2 st5">Q(A,M)=0.9*(-1+V(A))</tspan><tspan x="0" y="12" class="st9 st2 st5">+0.1*(-100)</tspan></text>
+</svg>

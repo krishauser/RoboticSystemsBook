@@ -62,7 +62,7 @@ def grid_search(xstart,xgoal,
         rmax = np.max(xmax-xmin)
         resolution = rmax/DEFAULT_RESOLUTION
     invresolution  = np.divide(1.0,resolution)
-    dims = [int(math.floor(v)) for v in np.multiply(xmax-xmin,invresolution)]
+    dims = [int(math.ceil(v)) for v in np.multiply(xmax-xmin,invresolution)]
     grid_start = 'start'
     grid_goal = 'goal'
     def to_state(v):
@@ -163,6 +163,9 @@ def grid_search(xstart,xgoal,
                 #extra edge to account for terminal cost
                 options.append(grid_goal)
             for w in options:
+                if w is grid_goal: 
+                    yield w
+                    continue
                 xw = to_state(w)
                 if not obstacle_test(xw):
                     if not obstacle_edge_test(xv,xw):

@@ -27,20 +27,19 @@ class MyClientLogic:
 # The rest is communication code
 
 def run_client(port : int, comm_handler : Callable):
-    """Boilerplate code.  comm_handler is a function f(socket, addr) that handles 
-    the communication loop with the server 
+    """Boilerplate code.  comm_handler is a function f(socket) that handles 
+    the communication loop. 
     """
     print("Client: Connecting to port",port,flush=True)
-    clientsocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    addr = ('localhost',port)
-    comm_handler(clientsocket,addr)
+    clientsocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    clientsocket.connect(('localhost',port))
+    comm_handler(clientsocket)
     clientsocket.close()
 
-#let's implement a simple handler and done function
 PORT = 5678
 client_logic = MyClientLogic()
 
-def handle_client_communication(clientsocket : socket.socket, addr):
+def handle_client_communication(clientsocket : socket.socket):
     client_logic.reset()
     client_comm_error = False
     dt = 1.0/client_logic.rate()
@@ -50,7 +49,7 @@ def handle_client_communication(clientsocket : socket.socket, addr):
         if msg is not None:
             print("Client: Sending",msg,flush=True)
             try:
-                clientsocket.sendto(msg.encode('utf8'),addr)
+                clientsocket.send(msg.encode('utf8'))
             except Exception as e:
                 print("Client: socket broken",flush=True)
                 client_comm_error = True 

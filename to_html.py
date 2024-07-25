@@ -6,6 +6,7 @@ import errno
 from glob import glob
 import shutil
 import time
+import io
 
 OUTPUT_DIR = 'html'
 if len(sys.argv) > 1:
@@ -28,6 +29,7 @@ def mkdir_p(path):
 
 def replace_in_file(fn,src,dest):
     f = open(fn,'r')
+    #f = io.open(fn, mode="r", encoding="utf-8")
     lines = ''.join(f.readlines())
     f.close()
     f = None
@@ -43,8 +45,14 @@ for fn in glob("*.ipynb"):
     os.system('%s --to %s --output-dir=%s "%s"'%(program,targets.get(fn,target_default),OUTPUT_DIR,fn))
 
 for fn in glob(OUTPUT_DIR+"/*.html"):
-    replace_in_file(fn,".ipynb\"",".html\"")
-    replace_in_file(fn,".ipynb#",".html#")
+    try:
+        replace_in_file(fn,".ipynb\"",".html\"")
+        replace_in_file(fn,".ipynb#",".html#")
+    except Exception as e:
+        print()
+        print("Encountered exception replacing .ipynb to .html in",fn)
+        print(e)
+        print("Skipping...")
 
 eqn_numbering_location = """<!-- End of mathjax configuration --></head>"""
 
@@ -62,4 +70,10 @@ MathJax.Hub.Config({ TeX: { equationNumbers: {
 """
 
 for fn in glob(OUTPUT_DIR+"/*.html"):
-    replace_in_file(fn,eqn_numbering_location,inject_eqn_numbering+eqn_numbering_location)
+    try:
+        replace_in_file(fn,eqn_numbering_location,inject_eqn_numbering+eqn_numbering_location)
+    except Exception as e:
+        print()
+        print("Encountered exception injecting mathjax header in",fn)
+        print(e)
+        print("Skipping...")

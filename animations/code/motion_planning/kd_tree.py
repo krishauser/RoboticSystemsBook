@@ -466,7 +466,7 @@ class KDTree(Scene):
         val_label = VGroup(line1, line2).arrange(DOWN, buff=0.2)
         val_label.move_to(graph_node.get_center())
         val_label.shift(RIGHT*0.8)
-        self.play(FadeIn(graph_node), FadeIn(label), FadeIn(val_label), run_time=0.5)
+        self.play(FadeIn(graph_node), FadeIn(label), FadeIn(val_label), run_time=1.0)
         return graph_node
         
     def _draw_line(self, p1, p2, label, label_shift):

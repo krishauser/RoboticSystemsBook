@@ -32,7 +32,7 @@ class DubinsCar(Dynamics):
         right = [-fwd[1],fwd[0]]
         phi = u[1]
         d = u[0]
-        return np.array([fwd[0]*d,fwd[1]*d,phi])
+        return np.array([fwd[0]*d,fwd[1]*d,phi*d])
         
 
 class DubinsCarIntegrator(ControlSpace):

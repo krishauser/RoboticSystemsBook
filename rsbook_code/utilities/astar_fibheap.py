@@ -146,7 +146,6 @@ class AStar:
 
         if self.testGoalOnGeneration and self.is_goal(start):
             self.goal = self.root
-            self.pathStates.append(start)
             return
         
     def search(self):
@@ -664,5 +663,5 @@ class _FibonacciHeap:
 	def delete(self, node):
 		"""Deletes the given node from the tree.  Operates in amortized O(log n)
 		time."""
-		self.decrease_key(node, sys.float_info.min)
+		self.decrease_key(node, -sys.float_info.max)
 		self.extract_minimum()
